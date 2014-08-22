@@ -1,4 +1,4 @@
-package helpers;
+package helpers.openfire;
 
 import java.util.Date;
 

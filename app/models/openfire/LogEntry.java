@@ -1,4 +1,4 @@
-package models;
+package models.openfire;
 
 import java.util.Date;
 

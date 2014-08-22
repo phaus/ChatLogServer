@@ -1,4 +1,4 @@
-package models;
+package models.openfire;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
