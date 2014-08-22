@@ -25,7 +25,7 @@ public class Room extends Model {
 	@Column(name = "roomPassword")
 	public String roomPassword;
 
-	private final static int PAGE_SIZE = 200;
+	public final static int PAGE_SIZE = 200;
 	
 	public Date getLastEntryDate() {
 		Date date = null;

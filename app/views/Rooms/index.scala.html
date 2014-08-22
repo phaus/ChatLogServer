@@ -1,14 +1,21 @@
+@import views.addons._
+
 @(rooms: List[openfire.Room])
 
 @main("ChatLogServer") {
-
-	<ul> 
-		@for(room <- rooms) {
-			@if(room.getEntryCount() > 0){
-			  <li>
-			  <a href="@routes.Rooms.show(room.roomId)">@room.title @room.getEntryCount() message(s), last one @room.getLastEntryDate()</a>
-			  </li>
-			}
-		} 
-	</ul>	
+<h1>browse Rooms</h1>
+<div class="row">
+    @for(room <- rooms) {
+    @if(room.getEntryCount() > 0){
+    <div class="col-lg-3 col-md-3 col-sm-6">
+        <h2>
+            @room.title 
+            <br />
+            <small>@room.getEntryCount() message(s) <br />since @room.getLastEntryDate().since()</small>
+        </h2>
+        <a class="btn btn-primary" href="@routes.Rooms.browse(room.roomId)">browse</a>
+    </div>
+    }
+    } 
+</div>	
 }

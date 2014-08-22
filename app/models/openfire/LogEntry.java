@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.joda.time.DateTime;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -27,6 +29,8 @@ public class LogEntry extends Model {
 	public String nickname;
 	public String subject;
 	public String body;
+	@Transient
+	public DateTime logTime = null;
 
 	@Embeddable
 	public class LogEntryId {
@@ -58,12 +62,31 @@ public class LogEntry extends Model {
 		return nickname + id;
 	}
 
+	public DateTime getDateTime() {
+		if (logTime == null) {
+			logTime = new DateTime(OpenFireHelper.getDateFormLogTime(logTimeString));
+		}
+		return logTime;
+	}
+
 	public Date getDate() {
-		return OpenFireHelper.getDateFormLogTime(logTimeString);
+		return getDateTime().toDate();
+	}
+
+	public int getYear() {
+		return getDateTime().getYear();
+	}
+
+	public int getMonth() {
+		return getDateTime().getMonthOfYear();
+	}
+
+	public int getDay() {
+		return getDateTime().getDayOfMonth();
 	}
 
 	public String toString() {
-		StringBuilder sb = new StringBuilder(getDate().toString());
+		StringBuilder sb = new StringBuilder(getDateTime().toString());
 		sb.append(" ").append(nickname).append(": ");
 		if (subject != null) {
 			sb.append("[" + subject + "]");

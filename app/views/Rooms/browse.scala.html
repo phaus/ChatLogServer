@@ -1,0 +1,41 @@
+@import views.addons._
+
+@(room: openfire.Room, entries: List[openfire.LogEntry], prev: Integer, next: Integer)
+
+@main("ChatLogServer") {
+<h1>@room.title</h1>
+<ul class="pager">
+    <li class="previous">
+        @if(prev != null){
+        <a href="@routes.Rooms.browse(room.roomId)?page=@prev">&larr; prev</a>
+        }
+    </li>
+    <li class="next">
+        @if(next != null){
+        <a href="@routes.Rooms.browse(room.roomId)?page=@next">next &rarr;</a>
+        }
+    </li>
+</ul>
+<table class="table table-striped">
+    @for(entry <- entries) {
+    <tr id="@entry.getEntryId()" name="@entry.getEntryId()">
+        <th class="tiny"><a href="@routes.Rooms.show(entry.roomId, entry.getYear(), entry.getMonth(), entry.getDay())"><span class="glyphicon glyphicon-calendar"></span></a></th>
+        <td class="narrow">@entry.nickname</td>
+        <td>@if(entry.subject){<em>@entry.subject</em><br />}@entry.body</td>
+        <td class="narrow">@entry.getDate().since()</td>
+    </tr>
+    } 
+</table>
+<ul class="pager">
+    <li class="previous">
+        @if(prev != null){
+        <a href="@routes.Rooms.browse(room.roomId)?page=@prev">&larr; prev</a>
+        }
+    </li>
+    <li class="next">
+        @if(next != null){
+        <a href="@routes.Rooms.browse(room.roomId)?page=@next">next &rarr;</a>
+        }
+    </li>
+</ul>
+}

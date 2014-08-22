@@ -10,9 +10,9 @@ public class OpenFireHelper {
 		Date date = null;
 		try {
 			long logTime = Long.parseLong(removeLeadingZeros(logTimeString));
-			Logger.debug("parsing: " + removeLeadingZeros(logTimeString) + ", got " + logTime);
+			//Logger.debug("parsing: " + removeLeadingZeros(logTimeString) + ", got " + logTime);
 			date = new Date(logTime);
-			Logger.debug("parsing: " + removeLeadingZeros(logTimeString) + ", got " + date);
+			//Logger.debug("parsing: " + removeLeadingZeros(logTimeString) + ", got " + date);
 		} catch (NumberFormatException ex) {
 
 		}
@@ -24,17 +24,19 @@ public class OpenFireHelper {
 	}
 
 	private static String removeLeadingZeros(String str) {
-		while (str.startsWith("0")) {
-			str = str.substring(1);
+		String nStr = str;
+		while (nStr.startsWith("0")) {
+			nStr = nStr.substring(1);
 		}
-		return str;
+		return nStr;
 	}
 
 	private static String addLeadingZeros(String str) {
-		while (str.length() < 15) {
-			str = "0" + str;
+		String nStr = str;
+		while (nStr.length() < 15) {
+			nStr = "0" + nStr;
 		}
-		Logger.debug("logTime is " + str + " lenght " + str.length());
-		return str;
+		//Logger.debug("logTime is " + str + " => " + nStr + " length " + str.length());
+		return nStr;
 	}
 }

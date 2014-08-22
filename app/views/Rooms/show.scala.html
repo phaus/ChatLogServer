@@ -1,11 +1,18 @@
-@(room: openfire.Room, entries: List[openfire.LogEntry])
+@import org.joda.time._
+@import views.addons._
+
+@(room: openfire.Room, entries: List[openfire.LogEntry], from: DateTime, to: DateTime)
 
 @main("ChatLogServer") {
-<a href="@routes.Rooms.index()">Rooms</a><h1>@room.title</h1>
-<hr />
-	<ul> 
-		@for(entry <- entries) {
-		  <li id="@entry.getEntryId()" name="@entry.getEntryId()">@entry</li>
-		} 
-	</ul>	
+<h1>@room.title <small>@from.toDate().since() (@from.toDate().format("dd.MM.yyyy"))</small></h1>
+<table class="table table-striped">
+    @for((entry, index) <- entries.zipWithIndex) {	
+    <tr id="L@{index+1}" name="L@{index+1}">
+        <th class="tiny" data-line="@{index+1}"><a href="#L@{index+1}">#@{index+1}</a></th>
+        <td class="narrow">@entry.nickname</td>
+        <td>@if(entry.subject){<em>@entry.subject</em><br />}@entry.body</td>
+        <td class="narrow">@entry.getDate().since()</td>
+    </tr>
+    }
+</table>
 }
