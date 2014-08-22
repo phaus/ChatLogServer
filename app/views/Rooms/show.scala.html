@@ -1,0 +1,11 @@
+@(room: openfire.Room, entries: List[openfire.LogEntry])
+
+@main("ChatLogServer") {
+<a href="@routes.Rooms.index()">Rooms</a><h1>@room.title</h1>
+<hr />
+	<ul> 
+		@for(entry <- entries) {
+		  <li id="@entry.getEntryId()" name="@entry.getEntryId()">@entry</li>
+		} 
+	</ul>	
+}

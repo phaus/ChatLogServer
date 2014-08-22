@@ -1,0 +1,14 @@
+@(rooms: List[openfire.Room])
+
+@main("ChatLogServer") {
+
+	<ul> 
+		@for(room <- rooms) {
+			@if(room.getEntryCount() > 0){
+			  <li>
+			  <a href="@routes.Rooms.show(room.roomId)">@room.title @room.getEntryCount() message(s), last one @room.getLastEntryDate()</a>
+			  </li>
+			}
+		} 
+	</ul>	
+}
