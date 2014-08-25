@@ -19,6 +19,7 @@ import play.db.ebean.Model;
 @Entity
 @Table(name = "ofMucConversationLog")
 public class LogEntry extends Model {
+	
 	@EmbeddedId
 	public LogEntryId id;
 	@Column(name = "roomID", columnDefinition = "bigint(20) NULL")

@@ -1,6 +1,11 @@
 .narrow {
-	width: 100px;
+	width: 150px;
 }
 .tiny {
 	width: 20px;
+}
+
+h2.room {
+	min-height: 200px;
+	max-height: 200px;
 }

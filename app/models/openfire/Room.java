@@ -10,14 +10,18 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import play.Logger;
 import play.db.ebean.Model;
 
 @Entity
 @Table(name = "ofMucRoom")
 public class Room extends Model {
+	
 	@Id
 	@Column(name = "roomID", columnDefinition = "bigint(20) NULL")
 	public Long roomId;
+	@Column(name = "serviceID", columnDefinition = "bigint(20) NULL")
+	public Long serviceId;
 	public String name;
 	public String description;
 	@Column(name = "naturalName")
@@ -67,6 +71,15 @@ public class Room extends Model {
 				.le("logTimeString", toStr)
 				.order("logTimeString DESC").findList();
 		return entries;
+	}
+	
+	public String getJabberId(){
+		Logger.debug("get service for "+serviceId);
+		RoomService service = RoomService.Finder.byId(serviceId);
+		if(service != null){
+			return name+"@"+service.getDomain();
+		}
+		return "";
 	}
 	
 	public static Finder<Long, Room> Finder = new Finder<Long, Room>("openfire", Long.class, Room.class);
