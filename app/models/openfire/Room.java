@@ -74,7 +74,6 @@ public class Room extends Model {
 	}
 	
 	public String getJabberId(){
-		Logger.debug("get service for "+serviceId);
 		RoomService service = RoomService.Finder.byId(serviceId);
 		if(service != null){
 			return name+"@"+service.getDomain();

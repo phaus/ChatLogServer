@@ -21,8 +21,8 @@
     @for(entry <- entries) {
     <tr id="@entry.getEntryId()" name="@entry.getEntryId()">
         <td class="narrow">@entry.nickname</td>
-        <td>@if(entry.subject){<em>@entry.subject</em><br />}@Html(ContentHelper.prepare(entry.body))</td>
-        <td class="narrow"><a href="@routes.Rooms.show(entry.roomId, entry.getYear(), entry.getMonth(), entry.getDay())">@entry.getDate().since()</a></td>
+        <td>@if(entry.subject){<em>@Html(ContentHelper.prepare(entry.subject))</em>}@Html(ContentHelper.prepare(entry.body))</td>
+        <td class="narrow"><a href="@routes.Rooms.show(entry.roomId, entry.getYear(), entry.getMonth(), entry.getDay())">@entry.getDate().format("dd.MM.yyyy")</a></td>
     </tr>
     } 
 </table>
