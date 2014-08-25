@@ -1,5 +1,6 @@
 @import org.joda.time._
 @import views.addons._
+@import helpers.ContentHelper
 
 @(room: openfire.Room, entries: List[openfire.LogEntry], from: DateTime, to: DateTime)
 
@@ -10,7 +11,7 @@
     <tr id="L@{index+1}" name="L@{index+1}">
         <th class="tiny" data-line="@{index+1}"><a href="#L@{index+1}">#@{index+1}</a></th>
         <td class="narrow">@entry.nickname</td>
-        <td>@if(entry.subject){<em>@entry.subject</em><br />}@entry.body</td>
+        <td>@if(entry.subject){<em>@entry.subject</em><br />}@Html(ContentHelper.prepare(entry.body))</td>
         <td class="narrow">@entry.getDate().since()</td>
     </tr>
     }

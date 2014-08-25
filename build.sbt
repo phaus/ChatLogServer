@@ -11,5 +11,7 @@ libraryDependencies ++= Seq(
   javaEbean,
   cache,
   javaWs,
-  "mysql" % "mysql-connector-java" % "5.1.18"
+  "mysql" % "mysql-connector-java" % "5.1.18",
+  "com.google.guava" % "guava" % "17.0",
+  "com.googlecode.owasp-java-html-sanitizer" % "owasp-java-html-sanitizer" % "r239"
 )
