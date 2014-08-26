@@ -9,7 +9,7 @@
     @if(room.getEntryCount() > 0){
     <div class="col-lg-3 col-md-3 col-sm-6">
         <h2 class="room">
-            @room.title <a href="xmpp://@room.getJabberId()"><span class="glyphicon glyphicon-log-in"></span></a>
+            @room.title <a href="xmpp://@room.getJabberId()?join"><span class="glyphicon glyphicon-log-in"></span></a>
             <br />
             <small>@room.getEntryCount() message(s) <br />since @room.getLastEntryDate().since()</small>
         </h2>
