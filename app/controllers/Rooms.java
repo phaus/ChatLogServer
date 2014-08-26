@@ -26,9 +26,9 @@ public class Rooms extends Controller {
 			return notFound("room with id " + id + " not found!");
 		}
         Integer page = getPageFromRequest();
-		Integer prev = page > 1 ? page - 1 : null;
-        Integer next = page < room.getEntryCount() / Room.PAGE_SIZE ? page + 1 : null;
-        Integer div = room.getEntryCount() / Room.PAGE_SIZE;
+        Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
+        Integer prev = page > 1 ? page - 1 : null;
+        Integer next = page < div ? page + 1 : null;
         Logger.debug("page: "+page+", prev: "+prev+", next: "+next+", div: "+div);
 		List<LogEntry> entries = room.getEntries(page);
 		return ok(browse.render(room, entries, prev, next));
