@@ -5,7 +5,7 @@
 @(room: openfire.Room, entries: List[openfire.LogEntry], from: DateTime, to: DateTime)
 
 @main("ChatLogServer") {
-<h1>@room.title <small>@from.toDate().format("dd.MM.yyyy")</small></h1>
+<h1><a href="@routes.Rooms.index()"><span class="glyphicon glyphicon-th"></span></a> @room.title <small>@from.toDate().format("dd.MM.yyyy")</small></h1>
 <table class="table table-striped">
     @for((entry, index) <- entries.zipWithIndex) {	
     <tr id="L@{index+1}" name="L@{index+1}">
