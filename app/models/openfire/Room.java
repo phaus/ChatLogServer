@@ -9,8 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import play.Logger;
 import play.db.ebean.Model;
 
 @Entity
@@ -30,6 +30,9 @@ public class Room extends Model {
 	public String roomPassword;
 
 	public final static int PAGE_SIZE = 200;
+
+	@Transient
+	public int lineCount = 0;
 	
 	public Date getLastEntryDate() {
 		Date date = null;
@@ -69,7 +72,7 @@ public class Room extends Model {
 				.eq("roomId", roomId)
 				.ge("logTimeString", fromStr)
 				.le("logTimeString", toStr)
-				.order("logTimeString DESC").findList();
+				.order("logTimeString ASC").findList();
 		return entries;
 	}
 	
@@ -79,6 +82,11 @@ public class Room extends Model {
 			return name+"@"+service.getDomain();
 		}
 		return "";
+	}
+	
+	public Integer updatedLineCount(int lineCount){
+		this.lineCount += lineCount;
+		return this.lineCount;
 	}
 	
 	public static Finder<Long, Room> Finder = new Finder<Long, Room>("openfire", Long.class, Room.class);
