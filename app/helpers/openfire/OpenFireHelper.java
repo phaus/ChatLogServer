@@ -24,6 +24,7 @@ public class OpenFireHelper {
 	}
 
 	private static String removeLeadingZeros(String str) {
+		if (str == null) return str;
 		String nStr = str;
 		while (nStr.startsWith("0")) {
 			nStr = nStr.substring(1);

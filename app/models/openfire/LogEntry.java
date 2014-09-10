@@ -2,13 +2,15 @@ package models.openfire;
 
 import helpers.openfire.OpenFireHelper;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -19,7 +21,7 @@ import play.db.ebean.Model;
 @Entity
 @Table(name = "ofMucConversationLog")
 public class LogEntry extends Model {
-	
+
 	@EmbeddedId
 	public LogEntryId id;
 	@Column(name = "roomID", columnDefinition = "bigint(20) NULL")
@@ -30,6 +32,7 @@ public class LogEntry extends Model {
 	public String nickname;
 	public String subject;
 	public String body;
+
 	@Transient
 	public DateTime logTime = null;
 
@@ -63,6 +66,14 @@ public class LogEntry extends Model {
 		return nickname + id;
 	}
 
+	public int getLineCount() {
+		return body == null ? 0 : body.split("\n").length;
+	}
+
+	public List<String> getLines() {
+		return body == null ? new LinkedList<String>() : Arrays.asList(body.split("\n"));
+	}
+	
 	public DateTime getDateTime() {
 		if (logTime == null) {
 			logTime = new DateTime(OpenFireHelper.getDateFormLogTime(logTimeString));
