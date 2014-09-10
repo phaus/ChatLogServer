@@ -2,7 +2,10 @@ package models.openfire;
 
 import helpers.openfire.OpenFireHelper;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -67,6 +70,10 @@ public class LogEntry extends Model {
 		return body == null ? 0 : body.split("\n").length;
 	}
 
+	public List<String> getLines() {
+		return body == null ? new LinkedList<String>() : Arrays.asList(body.split("\n"));
+	}
+	
 	public DateTime getDateTime() {
 		if (logTime == null) {
 			logTime = new DateTime(OpenFireHelper.getDateFormLogTime(logTimeString));
