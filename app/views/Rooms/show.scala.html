@@ -7,40 +7,18 @@
 @main("ChatLogServer") {
 <h1><a href="@routes.Rooms.index()"><span class="glyphicon glyphicon-th"></span></a> @room.title <small>@from.toDate().format("dd.MM.yyyy")</small></h1>
 <table class="table table-striped">
-
- 
-    @for((entry, startline) <- entries.zip( ( 0 +=: entries.map (e => e.getLineCount())).dropRight(1) )) {	    
-    
-        
-        @for((line, index) <- entry.getLines().zipWithIndex) {
-        	<tr>
-        		<th class="tiny">
-		        	@defining(startline+index) {i =>        		
-		        		<a data-line="@{i+1}" id="L@{i+1}" name="L@{i+1}" href="#L@{i+1}">#@{i+1}</a><br />        	
-		        	}     
-		        </th>
-		        @if(index==0){
-        			<td class="narrow">@entry.nickname</td>
-					<td>@if(entry.subject){
-    	    			<em>@Html(ContentHelper.prepare(entry.subject))</em>
-        			}@Html(ContentHelper.prepare(line))</td>        			
-        			<td class="narrow">@entry.getDate().format("HH:mm:ss")</td>
-        			
-        		} else { 
-        			<td></td>
-        			<td>@Html(ContentHelper.prepare(line))</td>
-        			<td></td>
-        		}
-			</tr>        	
+    @for((entry, index) <- entries.zipWithIndex) {	
+    <!-- @entry.getLineCount() -->
+    <tr>
+        <th class="tiny">
+        @for(i <- room.lineCount to room.updatedLineCount(entry.getLineCount())-1){
+	        <a data-line="@{i+1}" id="L@{i+1}" name="L@{i+1}" href="#L@{i+1}">#@{i+1}</a><br />
         }
-        
-        
-        
-        
-        
-    
+        </th>
+        <td class="narrow">@entry.nickname</td>
+        <td>@if(entry.subject){<em>@Html(ContentHelper.prepare(entry.subject))</em>}@Html(ContentHelper.prepare(entry.body))</td>
+        <td class="narrow">@entry.getDate().format("HH:mm:ss")</td>
+    </tr>
     }
- 
-   
 </table>
 }

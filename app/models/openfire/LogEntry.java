@@ -67,7 +67,7 @@ public class LogEntry extends Model {
 	}
 
 	public int getLineCount() {
-		return body == null ? 0 : body.split("\n").length;
+		return body == null ? 1 : body.split("\n").length;
 	}
 
 	public List<String> getLines() {
