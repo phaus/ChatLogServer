@@ -1,8 +1,26 @@
 .narrow {
-	width: 250px;
+	width: 100px;
+  	overflow: hidden; 
+  	text-overflow: ellipsis;
+  	white-space: nowrap;	
 }
+
 .tiny {
 	width: 20px;
+}
+
+.top {
+	vertical-align: top;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > td,
+.table > tbody > tr > th {
+	border: none;
+}
+
+tr.head {
+	border-top: 1px solid #ddd;
 }
 
 h2.room {

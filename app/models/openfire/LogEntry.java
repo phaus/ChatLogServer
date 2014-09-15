@@ -1,7 +1,9 @@
 package models.openfire;
 
+import helpers.ContentHelper;
 import helpers.openfire.OpenFireHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -22,6 +24,7 @@ import play.db.ebean.Model;
 @Table(name = "ofMucConversationLog")
 public class LogEntry extends Model {
 
+	private final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
 	@EmbeddedId
 	public LogEntryId id;
 	@Column(name = "roomID", columnDefinition = "bigint(20) NULL")
@@ -73,7 +76,7 @@ public class LogEntry extends Model {
 	public List<String> getLines() {
 		return body == null ? new LinkedList<String>() : Arrays.asList(body.split("\n"));
 	}
-	
+
 	public DateTime getDateTime() {
 		if (logTime == null) {
 			logTime = new DateTime(OpenFireHelper.getDateFormLogTime(logTimeString));
@@ -106,6 +109,44 @@ public class LogEntry extends Model {
 		if (body != null) {
 			sb.append(" ").append(body);
 		}
+		return sb.toString();
+	}
+
+	public String toTableRow(Room room){
+		return getTableRows(room, this);
+	}
+	
+	public static String getTableRows(Room room, LogEntry entry) {
+		StringBuilder sb = new StringBuilder();
+		String parts[] = entry.body != null ? entry.body.split("\n") : new String[] {};
+		for (int i = 0; i < parts.length; i++) {
+			int line = room.lineCount + i + 1;
+			sb.append("<tr");
+			if (i == 0) {
+				sb.append(" class=\"head\"");				
+			}
+			sb.append(">");
+			sb.append("<th class=\"tiny\">");
+			sb.append("<a data-line=\"" + line + "\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line
+					+ "\">#" + line + "</a>");
+			sb.append("</th>");
+			if (i == 0) {
+				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + entry.nickname + "</td>");
+				sb.append("<td>");
+				if (entry.subject != null) {
+					sb.append("<em>"+ContentHelper.prepare(entry.subject)+"</em>");
+				}
+				sb.append(ContentHelper.prepare(parts[i]));
+				sb.append("</td>");
+				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + TIME_FORMAT.format(entry.getDate()) + "</td>");
+			} else {
+				sb.append("<td>");
+				sb.append(ContentHelper.prepare(parts[i]));
+				sb.append("</td>");
+			}
+			sb.append("</tr>");
+		}
+		room.updatedLineCount(parts.length);
 		return sb.toString();
 	}
 

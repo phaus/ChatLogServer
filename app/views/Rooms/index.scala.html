@@ -3,7 +3,9 @@
 @(rooms: List[openfire.Room])
 
 @main("ChatLogServer") {
-<h1>browse Rooms</h1>
+<ol class="breadcrumb">
+  <li><a href="#">Rooms</a></li>
+</ol>
 <div class="row">
     @for(room <- rooms) {
     @if(room.getEntryCount() > 0){

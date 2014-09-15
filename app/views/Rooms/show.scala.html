@@ -5,20 +5,16 @@
 @(room: openfire.Room, entries: List[openfire.LogEntry], from: DateTime, to: DateTime)
 
 @main("ChatLogServer") {
-<h1><a href="@routes.Rooms.index()"><span class="glyphicon glyphicon-th"></span></a> @room.title <small>@from.toDate().format("dd.MM.yyyy")</small></h1>
-<table class="table table-striped">
+<ol class="breadcrumb">
+  	<li><a href="@routes.Rooms.index()">Rooms</a></li>
+  	<li><a href="@routes.Rooms.browse(room.roomId)">@room.title</a></li>
+  	<li class="active">@from.toDate().format("dd.MM.yyyy")</li>
+	<li class="pull-right"><a href="xmpp://@room.getJabberId()?join">join @room.getJabberId()</a></li>
+</ol>
+<table class="table">
     @for((entry, index) <- entries.zipWithIndex) {	
     <!-- @entry.getLineCount() -->
-    <tr>
-        <th class="tiny">
-        @for(i <- room.lineCount to room.updatedLineCount(entry.getLineCount())-1){
-	        <a data-line="@{i+1}" id="L@{i+1}" name="L@{i+1}" href="#L@{i+1}">#@{i+1}</a><br />
-        }
-        </th>
-        <td class="narrow">@entry.nickname</td>
-        <td>@if(entry.subject){<em>@Html(ContentHelper.prepare(entry.subject))</em>}@Html(ContentHelper.prepare(entry.body))</td>
-        <td class="narrow">@entry.getDate().format("HH:mm:ss")</td>
-    </tr>
+    @Html(entry.toTableRow(room))
     }
 </table>
 }
