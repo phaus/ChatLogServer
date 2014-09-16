@@ -106,7 +106,10 @@ public class ContentHelper {
 
 	private String embedYT(String urlStr) {
 		Map<String, String> paras = getParametersFromUrl(urlStr);
-		return "<iframe id=\"ytplayer\" type=\"text/html\" width=\"640\" height=\"390\" src=\"http://www.youtube.com/embed/"+paras.get("v")+"\" frameborder=\"0\" />";
+		if(paras.containsKey("v")) {
+			return "<iframe id=\"ytplayer\" type=\"text/html\" width=\"640\" height=\"390\" src=\"https://www.youtube.com/embed/"+paras.get("v")+"\" frameborder=\"0\" />";			
+		}
+		return "";
 	}
 
 	private static Map<String, String> getParametersFromUrl(String url) {
@@ -120,7 +123,7 @@ public class ContentHelper {
 					String value = param.split("=")[1];
 					map.put(name, value);
 				} catch (Exception e) {
-					Logger.debug("No value for parameters in "+url);
+					Logger.debug("No value for parameter "+param+" in "+url);
 				}
 			}
 		}
