@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 
+import play.Logger;
 import play.db.ebean.Model;
 
 @Entity
@@ -71,7 +72,7 @@ public class LogEntry extends Model {
 	}
 
 	public String getEntryId() {
-		return nickname + id;
+		return getSenderName() + id;
 	}
 
 	public int getLineCount() {
@@ -126,14 +127,13 @@ public class LogEntry extends Model {
 		String parts[] = entry.body != null ? entry.body.split("\n") : new String[] {};
 		for (int i = 0; i < parts.length; i++) {
 			int line = room.lineCount + i + 1;
-			sb.append("<tr");
+			sb.append("<tr  class=\"entry");
 			if (i == 0) {
-				sb.append(" class=\"head\"");
+				sb.append(" head");
 			}
-			sb.append(">");
+			sb.append("\">");
 			sb.append("<th class=\"tiny\">");
-			sb.append("<a data-line=\"" + line + "\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line
-					+ "\">#" + line + "</a>");
+			sb.append("<a data-line=\"" + line + "\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line + "\">#" + line + "</a>");
 			sb.append("</th>");
 			if (i == 0) {
 				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + entry.getSenderName() + "</td>");

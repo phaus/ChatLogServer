@@ -9,13 +9,15 @@ import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 
 import play.Logger;
+import play.libs.F.Promise;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 
 public class ContentHelper {
 
 	private String content;
-	private final static Pattern URL_PATTERN = Pattern
-			.compile("\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-
+	private final static Pattern URL_PATTERN = Pattern.compile("\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+	private final static int MAX_GET_TIMEOUT = 2500;
 	public ContentHelper(String content) {
 		this.content = content;
 	}
@@ -24,12 +26,12 @@ public class ContentHelper {
 		if (content == null) {
 			return content;
 		}
-		ContentHelper ch = new ContentHelper(content);
+		ContentHelper ch = new ContentHelper(content.trim());
 		return ch.detectUsers().sanitize().detectLinks().normalize().toString();
 	}
 
 	public ContentHelper normalize() {
-		content = content.replace("\n", "<br />");
+		content = content.replace("\n", "<br />\n");
 		return this;
 	}
 
@@ -41,6 +43,8 @@ public class ContentHelper {
 				.allowElements("img")			
 				.allowElements("br")
 				.allowAttributes("href")
+				.onElements("a")
+				.allowAttributes("target")
 				.onElements("a")
 				.allowAttributes("src")
 				.onElements("img")
@@ -58,10 +62,11 @@ public class ContentHelper {
 			while (m.find()) {
 				urlStr = m.group();
 				Logger.debug("found link |" + urlStr + "|");
-				line = line.replace(urlStr, embedLink(urlStr));	
-				if(urlStr.contains("//www.youtube.com")) {
-					line += embedYT(urlStr);
-				} 
+				line = line.replace(urlStr, embedLink(urlStr.replace("&#61;", "=")));		
+				if(urlStr.startsWith("http://www.youtube.com") || urlStr.startsWith("https://www.youtube.com")) {
+					Logger.debug("YT: "+line);
+					line += embedYT(urlStr.replace("&#61;", "="));
+				}
 			}
 			contentBuilder.append(line.trim());
 			contentBuilder.append("\n");
@@ -106,15 +111,26 @@ public class ContentHelper {
 	private String embedYT(String urlStr) {
 		Map<String, String> paras = getParametersFromUrl(urlStr);
 		if(paras.containsKey("v")) {
-			return "<iframe id=\"ytplayer\" type=\"text/html\" width=\"640\" height=\"390\" src=\"https://www.youtube.com/embed/"+paras.get("v")+"\" frameborder=\"0\" />";			
+			return "<iframe id=\"ytplayer\" type=\"text/html\" width=\"640\" height=\"390\" src=\"https://www.youtube.com/embed/"+paras.get("v")+"\" frameborder=\"0\"></iframe>";			
 		}
 		return "";
 	}
 
+	private String embedImage(String urlStr){
+		Promise<WSResponse> response = WS.url(urlStr).get();
+		try {
+			if(response.get(MAX_GET_TIMEOUT).getHeader("Content-Type").startsWith("image")){
+			return "<img src=\""+urlStr+"\" />";
+			} 
+		}catch(Exception ex){
+			Logger.warn(ex.getLocalizedMessage());
+		}
+		return "";
+	}
+	
 	private static Map<String, String> getParametersFromUrl(String url) {
 		Map<String, String> map = new HashMap<String, String>();
 		if (url != null) {
-			url = url.replace("&#61;", "=");
 			String[] params = url.split("[&,?]");
 			for (String param : params) {
 				try {
