@@ -65,7 +65,7 @@ public class ContentHelper {
 				line = line.replace(urlStr, embedLink(urlStr.replace("&#61;", "=")));		
 				if(urlStr.startsWith("http://www.youtube.com") || urlStr.startsWith("https://www.youtube.com")) {
 					Logger.debug("YT: "+line);
-					line += embedYT(urlStr.replace("&#61;", "="));
+					line += "<br />"+embedYT(urlStr.replace("&#61;", "="));
 				}
 			}
 			contentBuilder.append(line.trim());
