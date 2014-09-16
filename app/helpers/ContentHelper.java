@@ -58,11 +58,10 @@ public class ContentHelper {
 			while (m.find()) {
 				urlStr = m.group();
 				Logger.debug("found link |" + urlStr + "|");
+				line = line.replace(urlStr, embedLink(urlStr));	
 				if(urlStr.contains("//www.youtube.com")) {
 					line += embedYT(urlStr);
 				} 
-				line = line.replace(urlStr, embedLink(urlStr));					
-
 			}
 			contentBuilder.append(line.trim());
 			contentBuilder.append("\n");
