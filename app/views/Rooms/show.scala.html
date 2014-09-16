@@ -1,6 +1,7 @@
 @import org.joda.time._
 @import views.addons._
 @import helpers.ContentHelper
+@import helpers.EntryHelper
 
 @(room: openfire.Room, entries: List[openfire.LogEntry], from: DateTime, to: DateTime)
 
@@ -8,12 +9,12 @@
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
   	<li><a href="@routes.Rooms.browse(room.roomId)">@room.title</a></li>
   	<li class="active">@from.toDate().format("dd.MM.yyyy")</li>
-	<li><a href="xmpp://@room.getJabberId()?join">join @room.getJabberId()</a></li>
+	<li class="pull-right"><a href="xmpp://@room.getJabberId()?join">join @room.getJabberId()</a></li>
 } {
 <table class="table">
     @for((entry, index) <- entries.zipWithIndex) {	
     <!-- @entry.getLineCount() -->
-    @Html(entry.toTableRow(room))
+    @Html(EntryHelper.getTableRows(room, entry))
     }
 </table>
 }

@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           			controllers.Rooms.index()
+GET     /users/:uid              				controllers.Users.show(uid: String)
 GET     /rooms              					controllers.Rooms.index()
 GET     /rooms/:roomId              			controllers.Rooms.browse(roomId: Long)
 GET     /rooms/:roomId/day/:year/:month/:day	controllers.Rooms.show(roomId: Long, year: Integer, month: Integer, day: Integer)

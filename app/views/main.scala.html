@@ -14,12 +14,16 @@
         <div class="container">
         	<ol class="breadcrumb">
         	  	<li><a href="/">Dashboard</a></li>
-  				@navivation
   				@if(Application.ISSUE_TRACKER_URL){
 	  				<li class="pull-right"><a target="_issues" href="@Application.ISSUE_TRACKER_URL">Issues</a></li>
   				}
+  				@navivation  				
 			</ol>
             @content
+            <hr>
+            <footer>
+                <p><small>free icons by  https://www.iconfinder.com</small></p>
+            </footer>
         </div>
         <script src="@routes.Assets.at("js/bootstrap.min.js")" type="text/javascript"></script>
     </body>

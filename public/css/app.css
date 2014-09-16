@@ -5,6 +5,12 @@
   	white-space: nowrap;	
 }
 
+img.avatar {
+	max-height: px;
+	max-width: 16px;
+	margin-right: 10px;
+}
+
 .tiny {
 	width: 20px;
 }
