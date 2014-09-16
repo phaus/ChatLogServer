@@ -65,6 +65,11 @@ public class LogEntry extends Model {
 		}
 	}
 
+	public String getSenderName() {
+		String parts[] = this.sender != null ? sender.split("@", 2) : null;
+		return parts != null && parts.length > 0 ? parts[0].trim() : this.sender;
+	}
+
 	public String getEntryId() {
 		return nickname + id;
 	}
@@ -112,10 +117,10 @@ public class LogEntry extends Model {
 		return sb.toString();
 	}
 
-	public String toTableRow(Room room){
+	public String toTableRow(Room room) {
 		return getTableRows(room, this);
 	}
-	
+
 	public static String getTableRows(Room room, LogEntry entry) {
 		StringBuilder sb = new StringBuilder();
 		String parts[] = entry.body != null ? entry.body.split("\n") : new String[] {};
@@ -123,7 +128,7 @@ public class LogEntry extends Model {
 			int line = room.lineCount + i + 1;
 			sb.append("<tr");
 			if (i == 0) {
-				sb.append(" class=\"head\"");				
+				sb.append(" class=\"head\"");
 			}
 			sb.append(">");
 			sb.append("<th class=\"tiny\">");
@@ -131,14 +136,15 @@ public class LogEntry extends Model {
 					+ "\">#" + line + "</a>");
 			sb.append("</th>");
 			if (i == 0) {
-				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + entry.nickname + "</td>");
+				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + entry.getSenderName() + "</td>");
 				sb.append("<td>");
 				if (entry.subject != null) {
-					sb.append("<em>"+ContentHelper.prepare(entry.subject)+"</em>");
+					sb.append("<em>" + ContentHelper.prepare(entry.subject) + "</em>");
 				}
 				sb.append(ContentHelper.prepare(parts[i]));
 				sb.append("</td>");
-				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + TIME_FORMAT.format(entry.getDate()) + "</td>");
+				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">"
+						+ TIME_FORMAT.format(entry.getDate()) + "</td>");
 			} else {
 				sb.append("<td>");
 				sb.append(ContentHelper.prepare(parts[i]));
