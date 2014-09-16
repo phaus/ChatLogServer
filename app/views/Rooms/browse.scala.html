@@ -1,12 +1,13 @@
 @import views.addons._
 @import helpers.ContentHelper
 
-@(room: openfire.Room, entries: List[openfire.LogEntry], prev: Integer, next: Integer)
+@(room: openfire.Room, entries: List[openfire.LogEntry], prev: Integer, next: Integer, page: Integer, order: String)
 
 @main("ChatLogServer") {
 <ol class="breadcrumb">
+  	<li><a href="/">Dashboard</a></li>
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
-  	<li>@room.title</li>
+  	<li class="active">@room.title</li>
 	<li class="pull-right"><a href="xmpp://@room.getJabberId()?join">join @room.getJabberId()</a></li>
 </ol>
 <ul class="pager">
@@ -14,6 +15,11 @@
         @if(prev != null){
         <a href="@routes.Rooms.browse(room.roomId)?page=@prev">&larr; prev</a>
         }
+    </li>
+    <li>
+		<a href="@routes.Rooms.browse(room.roomId)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
+		<span class="glyphicon @if(order.equals("asc")){glyphicon-chevron-up}else{glyphicon-chevron-down}"></span>
+		</a>
     </li>
     <li class="next">
         @if(next != null){
@@ -36,6 +42,11 @@
         <a href="@routes.Rooms.browse(room.roomId)?page=@prev">&larr; prev</a>
         }
     </li>
+    <li>
+		<a href="@routes.Rooms.browse(room.roomId)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
+		<span class="glyphicon @if(order.equals("asc")){glyphicon-chevron-up}else{glyphicon-chevron-down}"></span>
+		</a>
+    </li>    
     <li class="next">
         @if(next != null){
         <a href="@routes.Rooms.browse(room.roomId)?page=@next">next &rarr;</a>

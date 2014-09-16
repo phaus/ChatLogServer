@@ -29,9 +29,10 @@ public class Rooms extends Controller {
         Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
         Integer prev = page > 1 ? page - 1 : null;
         Integer next = page < div ? page + 1 : null;
+        String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
         Logger.debug("page: "+page+", prev: "+prev+", next: "+next+", div: "+div);
-		List<LogEntry> entries = room.getEntries(page);
-		return ok(browse.render(room, entries, prev, next));
+		List<LogEntry> entries = room.getEntries(page, order);
+		return ok(browse.render(room, entries, prev, next, page, order));
 	}
 
 	public static Result show(Long id, Integer year, Integer month, Integer day) {
@@ -55,5 +56,9 @@ public class Rooms extends Controller {
 
 		}
 		return page;
+	}
+	
+	private static String getQueryValue(String key, String defaultValue){
+		return request().getQueryString(key) != null ? request().getQueryString(key) : defaultValue;
 	}
 }

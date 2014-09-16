@@ -54,12 +54,12 @@ public class Room extends Model {
 				.findRowCount();
 	}
 	
-	public List<LogEntry> getEntries(Integer page){
+	public List<LogEntry> getEntries(Integer page, String order){
 		int p = page != null ? page : 1;
 		List<LogEntry> entries = LogEntry.Finder
 				.where()
 				.eq("roomId", roomId)
-				.order("logTimeString DESC")
+				.order("logTimeString "+order)
 				.findPagingList(PAGE_SIZE).getPage(p-1).getList();
 		return entries;
 	}
