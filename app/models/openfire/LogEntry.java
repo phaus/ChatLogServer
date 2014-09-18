@@ -67,6 +67,11 @@ public class LogEntry extends Model {
 		return parts != null && parts.length > 0 ? parts[0].trim() : this.sender;
 	}
 
+	public String getRoomName() {
+		Room room = Room.Finder.byId(roomId);
+		return room != null ? room.name : String.valueOf(roomId);
+	}
+
 	public String getEntryId() {
 		return getSenderName() + id;
 	}

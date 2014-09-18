@@ -5,6 +5,7 @@
 @(room: openfire.Room, entries: List[openfire.LogEntry], prev: Integer, next: Integer, page: Integer, order: String)
 
 @main("ChatLogServer") {
+	<li><a href="@routes.Rooms.index()">Home</a></li>
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
   	<li class="active">@room.title</li>
 	<li class="pull-right"><a href="xmpp://@room.getJabberId()?join">join @room.getJabberId()</a></li>

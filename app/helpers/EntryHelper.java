@@ -6,6 +6,7 @@ import com.typesafe.config.ConfigFactory;
 
 import models.openfire.LogEntry;
 import models.openfire.Room;
+import models.openfire.User;
 
 public class EntryHelper {
 	private final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
@@ -49,10 +50,10 @@ public class EntryHelper {
 
 	public static String decorateSenderName(String senderName) {
 		StringBuilder sb = new StringBuilder();
-		if (USER_AVATAR_URL_TEMPLATE != null) {
+		if (USER_AVATAR_URL_TEMPLATE != null && User.Finder.where().eq("username", senderName).findUnique() != null) {
 			sb.append("<img class=\"avatar\" src=\"" + USER_AVATAR_URL_TEMPLATE.replace(":uid", senderName) + "\"/>");
 			if(USER_URL_TEMPLATE != null) {
-				sb.append("<a target=\"_user\" href=\""+USER_URL_TEMPLATE.replace(":uid", senderName)).append("\">"+senderName+"</a>");				
+				sb.append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", senderName)).append("\">"+senderName+"</a>");				
 			} else {
 				sb.append(senderName);
 			}

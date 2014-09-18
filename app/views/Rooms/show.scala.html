@@ -6,6 +6,7 @@
 @(room: openfire.Room, entries: List[openfire.LogEntry], from: DateTime, to: DateTime)
 
 @main("ChatLogServer") {
+    <li><a href="@routes.Rooms.index()">Home</a></li>
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
   	<li><a href="@routes.Rooms.browse(room.roomId)">@room.title</a></li>
   	<li class="active">@from.toDate().format("dd.MM.yyyy")</li>

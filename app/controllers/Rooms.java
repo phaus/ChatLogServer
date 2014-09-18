@@ -1,20 +1,21 @@
 package controllers;
 
 import helpers.DateHelper;
-import helpers.openfire.OpenFireHelper;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import models.openfire.LogEntry;
 import models.openfire.Room;
-import play.Logger;
-import play.mvc.Controller;
-import play.mvc.Result;
-import views.html.Rooms.*;
 
-public class Rooms extends Controller {
+import org.joda.time.DateTime;
+
+import play.Logger;
+import play.mvc.Result;
+import views.html.Rooms.browse;
+import views.html.Rooms.index;
+import views.html.Rooms.show;
+
+public class Rooms extends Application {
 	public static Result index() {
 		List<Room> rooms = Room.Finder.all();
 		return ok(index.render(rooms));
@@ -44,21 +45,5 @@ public class Rooms extends Controller {
 		DateTime to = DateHelper.getLogTimeForYearMonthDay(year, month, day, true);
 		List<LogEntry> entries = room.getEntriesFromTo(from.getMillis(), to.getMillis());
 		return ok(show.render(room, entries, from, to));
-	}
-
-	private static Integer getPageFromRequest() {
-		Integer page = 1;
-		try {
-			if (request().getQueryString("page") != null) {
-				page = Integer.parseInt(request().getQueryString("page"));
-			}
-		} catch (NumberFormatException ex) {
-
-		}
-		return page;
-	}
-	
-	private static String getQueryValue(String key, String defaultValue){
-		return request().getQueryString(key) != null ? request().getQueryString(key) : defaultValue;
 	}
 }
