@@ -15,36 +15,54 @@ public class EntryHelper {
 	
 	public static String getTableRows(Room room, LogEntry entry) {
 		StringBuilder sb = new StringBuilder();
-		String parts[] = entry.body != null ? entry.body.split("\n") : new String[] {};
-		for (int i = 0; i < parts.length; i++) {
-			int line = room.lineCount + i + 1;
-			sb.append("<tr  class=\"entry");
-			if (i == 0) {
-				sb.append(" head");
+		if(entry.body != null){
+			String parts[] =  entry.body.split("\n");
+			for (int i = 0; i < parts.length; i++) {
+				int line = room.lineCount + i + 1;
+				sb.append("<tr  class=\"entry");
+				if (i == 0) {
+					sb.append(" head");
+				}
+				sb.append("\">");
+				sb.append("<th class=\"tiny\">");
+				sb.append("<a data-line=\"" + line + "\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line + "\">#" + line + "</a>");
+				sb.append("</th>");
+				if (i == 0) {
+					sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">");
+					sb.append(decorateSenderName(entry.getSenderName()));
+					sb.append("</td>");
+					sb.append("<td>");
+					if (entry.subject != null) {
+						sb.append("changed topic to <h4>" + entry.subject + "</h4>");
+					} else {
+						sb.append(ContentHelper.prepare(parts[i]));					
+					}
+					sb.append("</td>");
+					sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + TIME_FORMAT.format(entry.getDate()) + "</td>");
+				} else {
+					sb.append("<td>");
+					sb.append(ContentHelper.prepare(parts[i]));
+					sb.append("</td>");
+				}
+				sb.append("</tr>");
 			}
-			sb.append("\">");
+			room.updatedLineCount(parts.length);			
+		} else {
+			int line = room.lineCount + 1;
+			sb.append("<tr class=\"entry head \">");
 			sb.append("<th class=\"tiny\">");
 			sb.append("<a data-line=\"" + line + "\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line + "\">#" + line + "</a>");
 			sb.append("</th>");
-			if (i == 0) {
-				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">");
-				sb.append(decorateSenderName(entry.getSenderName()));
-				sb.append("</td>");
-				sb.append("<td>");
-				if (entry.subject != null) {
-					sb.append("<em>" + ContentHelper.prepare(entry.subject) + "</em>");
-				}
-				sb.append(ContentHelper.prepare(parts[i]));
-				sb.append("</td>");
-				sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + TIME_FORMAT.format(entry.getDate()) + "</td>");
-			} else {
-				sb.append("<td>");
-				sb.append(ContentHelper.prepare(parts[i]));
-				sb.append("</td>");
-			}
-			sb.append("</tr>");
+			sb.append("<td class=\"top narrow\">");
+			sb.append(decorateSenderName(entry.getSenderName()));
+			sb.append("</td>");
+			sb.append("<td>");
+			sb.append("changed topic to <b>" + entry.subject + "</b>");
+			sb.append("</td>");
+			sb.append("<td class=\"top narrow\">" + TIME_FORMAT.format(entry.getDate()) + "</td>");
+			sb.append("</tr>");			
+			room.updatedLineCount(1);		
 		}
-		room.updatedLineCount(parts.length);
 		return sb.toString();
 	}
 
