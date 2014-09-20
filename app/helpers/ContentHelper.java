@@ -90,7 +90,7 @@ public class ContentHelper {
 				start = line.indexOf(" @") + 1;
 				if (start < 0 && line.startsWith("@"))
 					start = 0;
-				end = line.substring(start).indexOf(" ");
+				end = Math.min(line.substring(start).indexOf(" "), line.length());
 				if (end < 1)
 					end = line.length();
 				user = line.substring(start + 1, end).trim().toLowerCase();
