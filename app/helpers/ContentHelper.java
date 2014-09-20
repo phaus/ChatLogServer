@@ -72,6 +72,9 @@ public class ContentHelper {
 					Logger.debug("YT: "+line);
 					line += "<br />"+embedYT(urlStr.replace("&#61;", "="));
 				}
+				if(line.trim().equals(urlStr)) {
+					line += "<br />"+embedImage(urlStr.replace("&#61;", "="));
+				}
 			}
 			contentBuilder.append(line.trim());
 			contentBuilder.append("\n");
