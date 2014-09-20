@@ -60,9 +60,10 @@ public class ContentHelper {
 	}
 
 	public ContentHelper detectLinks() {
-		String urlStr;
+		String urlStr, oldLine;
 		StringBuilder contentBuilder = new StringBuilder();
 		for (String line : content.split("\n")) {
+			oldLine = line.trim();
 			Matcher m = URL_PATTERN.matcher(line);
 			while (m.find()) {
 				urlStr = m.group();
@@ -72,7 +73,7 @@ public class ContentHelper {
 					Logger.debug("YT: "+line);
 					line += "<br />"+embedYT(urlStr.replace("&#61;", "="));
 				}
-				if(line.trim().equals(urlStr)) {
+				if(oldLine.equals(urlStr)) {
 					line += "<br />"+embedImage(urlStr.replace("&#61;", "="));
 				}
 			}
