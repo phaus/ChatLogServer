@@ -93,12 +93,16 @@ public class ContentHelper {
 				end = Math.min(line.substring(start).indexOf(" "), line.length());
 				if (end < 1)
 					end = line.length();
-				Logger.debug("found "+start+" - "+end+" in "+line.length());
-				user = line.substring(start + 1, end).trim().toLowerCase();
-				Logger.debug("found user |" + user + "| " + start + "-" + end);
-				if(User.Finder.where().eq("username", user).findUnique() != null){
-					contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", user)).append("\">"+user+"</a>").append(line.substring(end));					
-				} else {
+				if(end > start){
+					user = line.substring(start + 1, end).trim().toLowerCase();
+					Logger.debug("found user |" + user + "| " + start + "-" + end);
+					if(User.Finder.where().eq("username", user).findUnique() != null){
+						contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", user)).append("\">"+user+"</a>").append(line.substring(end));					
+					} else {
+						contentBuilder.append(line.trim());
+					}					
+				}else {
+					Logger.warn("false user in: "+line.trim());
 					contentBuilder.append(line.trim());
 				}
 			} else {
