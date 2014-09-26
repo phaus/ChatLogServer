@@ -1,5 +1,7 @@
 package helpers;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -134,18 +136,24 @@ public class ContentHelper {
 		return "";
 	}
 
-	private String embedImage(String urlStr){
-		Promise<WSResponse> response = WS.url(urlStr).get();
+	private String embedImage(String urlStr) {
 		try {
-			if(response.get(MAX_GET_TIMEOUT).getHeader("Content-Type").startsWith("image")){
-			return "<img src=\""+urlStr+"\" />";
-			} 
-		}catch(Exception ex){
+			urlStr = URLEncoder.encode(urlStr, "UTF-8");
+			Promise<WSResponse> response = WS.url(urlStr).get();
+			try {
+				if (response.get(MAX_GET_TIMEOUT).getHeader("Content-Type").startsWith("image")) {
+					return "<img src=\"" + urlStr + "\" />";
+				}
+			} catch (Exception ex) {
+				Logger.warn(ex.getLocalizedMessage());
+			}
+		} catch (Exception ex) {
 			Logger.warn(ex.getLocalizedMessage());
 		}
+
 		return "";
 	}
-	
+
 	private static Map<String, String> getParametersFromUrl(String url) {
 		Map<String, String> map = new HashMap<String, String>();
 		if (url != null) {
