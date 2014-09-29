@@ -8,8 +8,9 @@
 	<li><a href="@routes.Rooms.index()">Home</a></li>
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
   	<li class="active">@room.title</li>
-	<li class="pull-right"><a href="xmpp://@room.getJabberId()?join">join @room.getJabberId()</a></li>
+	<li><a href="xmpp://@room.getJabberId()?join">join</a></li>
 } {
+<h2><small>Messages in Room</small> @room.title</h2>
 <ul class="pager">
     <li class="previous">
         @if(prev != null){
