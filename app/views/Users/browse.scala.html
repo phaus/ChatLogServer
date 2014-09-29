@@ -10,6 +10,7 @@
   	<li>Users</li>
   	<li>@user.username</li>
 } {
+<h2><small>Messages from User</small> @user.username</h2>
 <ul class="pager">
     <li class="previous">
         @if(prev != null){
@@ -28,10 +29,15 @@
     </li>
 </ul>
 <table class="table table-striped">
+	<tr>
+		<th>Room</th>
+		<th>Message</th>
+		<th>Date</th>
+	</tr>
     @for(entry <- entries) {
     <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
 		<td><a href="@routes.Rooms.browse(entry.roomId)">@entry.getRoomName()</a></td>
-		<td>@if(entry.subject){<em>@Html(ContentHelper.prepare(entry.subject))</em>}@Html(ContentHelper.prepare(entry.body))</td>
+		<td><div class="content">@if(entry.subject){ changed topic to <b>@entry.subject</b> } else { @Html(ContentHelper.prepare(entry.body)) } </div></td>
         <td class="narrow"><a href="@routes.Rooms.show(entry.roomId, entry.getYear(), entry.getMonth(), entry.getDay())">@entry.getDate().format("dd.MM.yyyy HH:mm:ss")</a></td>
 	</tr>
     }

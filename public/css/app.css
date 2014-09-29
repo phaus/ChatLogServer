@@ -33,3 +33,7 @@ h2.room {
 	min-height: 135px;
 	max-height: 135px;
 }
+
+.content {
+	overflow:auto;
+}

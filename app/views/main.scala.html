@@ -13,11 +13,14 @@
     <body>
         <div class="container">
         	<ol class="breadcrumb">
-        	  	<li><a href="/">Dashboard</a></li>
-  				@if(Application.ISSUE_TRACKER_URL){
-	  				<li class="pull-right"><a target="_issues" href="@Application.ISSUE_TRACKER_URL">Issues</a></li>
+  				@navivation  
+  								
+			</ol>
+			<ol class="breadcrumb pull-right">
+			  	<li><a href="/">Dashboard</a></li>
+			  	@if(Application.ISSUE_TRACKER_URL){
+	  				<li><a target="_issues" href="@Application.ISSUE_TRACKER_URL">Issues</a></li>
   				}
-  				@navivation  				
 			</ol>
             @content
             <hr>

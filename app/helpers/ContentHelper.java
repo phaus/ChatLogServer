@@ -1,6 +1,5 @@
 package helpers;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,12 +11,12 @@ import models.openfire.User;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 
-import com.typesafe.config.ConfigFactory;
-
 import play.Logger;
 import play.libs.F.Promise;
 import play.libs.ws.WS;
 import play.libs.ws.WSResponse;
+
+import com.typesafe.config.ConfigFactory;
 
 public class ContentHelper {
 
@@ -103,7 +102,7 @@ public class ContentHelper {
 					user = line.substring(start + 1, end).trim().toLowerCase();
 					Logger.debug("found user |" + user + "| " + start + "-" + end);
 					if(User.Finder.where().eq("username", user).findUnique() != null){
-						contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", user)).append("\">"+user+"</a>").append(line.substring(end));					
+						contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", user)).append("\">@"+user+"</a>").append(line.substring(end));					
 					} else {
 						contentBuilder.append(line.trim());
 					}					
