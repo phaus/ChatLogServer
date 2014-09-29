@@ -36,4 +36,5 @@ h2.room {
 
 .content {
 	overflow:auto;
+	max-width: 900px;
 }
