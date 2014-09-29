@@ -12,6 +12,7 @@
   	<li class="active">@from.toDate().format("dd.MM.yyyy")</li>
 	<li><a href="xmpp://@room.getJabberId()?join">join</a></li>
 } {
+<h2><small>Messages in Room</small> @room.title <small>from @from.toDate().format("dd.MM.yyyy")</small></h2>
 <table class="table">
     @for((entry, index) <- entries.zipWithIndex) {	
     <!-- @entry.getLineCount() -->
