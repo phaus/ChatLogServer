@@ -60,13 +60,30 @@ public class Rooms extends Application {
 		return ok(show.render(room, entries, from, to));
 	}
 
+	public static Result feed(Long id) {
+		Room room = Room.Finder.byId(id);
+		if (room == null) {
+			return notFound("room with id " + id + " not found!");
+		}		
+		Integer page = getPageFromRequest();
+		Integer div = room.getEntryCount() / Room.PAGE_SIZE/10 + 1;
+		Integer prev = page > 1 ? page - 1 : null;
+		Integer next = page < div ? page + 1 : null;
+		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
+		Logger.debug("feed page: " + page + ", prev: " + prev + ", next: " + next + ", div: " + div);
+		List<LogEntry> entries = room.getEntries(page, order);		
+		LogEntry lastEntry = room.getLastEntry();
+		//routes.Application.show("1").toString();
+		return ok(views.xml.Rooms.feed.render(room, lastEntry, entries));
+	}
+	
 	private static Result browseRoom(Room room) {
 		Integer page = getPageFromRequest();
 		Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
 		Integer prev = page > 1 ? page - 1 : null;
 		Integer next = page < div ? page + 1 : null;
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
-		Logger.debug("page: " + page + ", prev: " + prev + ", next: " + next + ", div: " + div);
+		Logger.debug("browse page: " + page + ", prev: " + prev + ", next: " + next + ", div: " + div);
 		List<LogEntry> entries = room.getEntries(page, order);
 		return ok(browse.render(room, entries, prev, next, page, order));
 	}

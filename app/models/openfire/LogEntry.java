@@ -1,5 +1,6 @@
 package models.openfire;
 
+import helpers.DateHelper;
 import helpers.openfire.OpenFireHelper;
 
 import java.util.Arrays;
@@ -67,6 +68,10 @@ public class LogEntry extends Model {
 		return parts != null && parts.length > 0 ? parts[0].trim() : this.sender;
 	}
 
+	public String getUpdated() {
+		return DateHelper.getIsoDate(getDate());
+	}
+	
 	public String getRoomName() {
 		Room room = Room.Finder.byId(roomId);
 		return room != null ? room.name : String.valueOf(roomId);

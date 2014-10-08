@@ -1,10 +1,13 @@
 package helpers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.joda.time.DateTime;
 
-import play.Logger;
-
 public class DateHelper {
+	private final static SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat("dd MMM yyyy HH:mm:ssZ");
+	
 	public static DateTime getLogTimeForYearMonthDay(int year, int month, int day, Boolean inc) {
 		DateTime dt = null;
 		if (inc) {
@@ -12,7 +15,10 @@ public class DateHelper {
 		} else {
 			dt = new DateTime(year, month, day, 0, 0);			
 		}
-		//Logger.debug(" " + day + "." + month + "." + year + (inc ? " incl day" : " excl day") + " => " + dt + ", " + dt.getMillis());
 		return dt;
+	}
+	
+	public static String getIsoDate(Date date){
+		return ISO_8601_FORMAT.format(date);
 	}
 }

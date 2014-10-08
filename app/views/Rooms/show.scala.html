@@ -5,7 +5,7 @@
 
 @(room: openfire.Room, entries: List[openfire.LogEntry], from: DateTime, to: DateTime)
 
-@main("ChatLogServer") {
+@main("ChatLogServer", routes.Rooms.feed(room.roomId).toString()) {
     <li><a href="@routes.Rooms.index()">Home</a></li>
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
   	<li><a href="@routes.Rooms.browse(room.roomId)">@room.title</a></li>

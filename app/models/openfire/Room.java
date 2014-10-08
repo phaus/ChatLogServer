@@ -4,6 +4,7 @@ import helpers.openfire.OpenFireHelper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,25 +37,29 @@ public class Room extends Model {
 	
 	public Date getLastEntryDate() {
 		Date date = null;
-		LogEntry entry = LogEntry.Finder.setMaxRows(1)
-				.where()
-				.eq("roomId", roomId)
-				.order("logTimeString DESC")
-				.findUnique();
+		LogEntry entry = getLastEntry();
 		if (entry != null) {
 			date = OpenFireHelper.getDateFormLogTime(entry.logTimeString);
 		}
 		return date;
 	}
 
-	public Integer getEntryCount(){
+	public LogEntry getLastEntry() {
+		return LogEntry.Finder.setMaxRows(1)
+				.where()
+				.eq("roomId", roomId)
+				.order("logTimeString DESC")
+				.findUnique();	
+	}
+	
+	public Integer getEntryCount() {
 		return LogEntry.Finder
 				.where()
 				.eq("roomId", roomId)
 				.findRowCount();
 	}
 	
-	public List<LogEntry> getEntries(Integer page, String order){
+	public List<LogEntry> getEntries(Integer page, String order) {
 		int p = page != null ? page : 1;
 		List<LogEntry> entries = LogEntry.Finder
 				.where()
@@ -64,7 +69,7 @@ public class Room extends Model {
 		return entries;
 	}
 
-	public List<LogEntry> getEntriesFromTo(Long from, Long to){
+	public List<LogEntry> getEntriesFromTo(Long from, Long to) {
 		String fromStr = OpenFireHelper.getLogTimeFromMillis(from);
 		String toStr = OpenFireHelper.getLogTimeFromMillis(to);
 		List<LogEntry> entries = LogEntry.Finder
@@ -76,7 +81,7 @@ public class Room extends Model {
 		return entries;
 	}
 	
-	public String getJabberId(){
+	public String getJabberId() {
 		RoomService service = RoomService.Finder.byId(serviceId);
 		if(service != null){
 			return name+"@"+service.getDomain();
@@ -84,7 +89,11 @@ public class Room extends Model {
 		return "";
 	}
 	
-	public Integer updatedLineCount(int lineCount){
+	public String getUUID() {
+		return UUID.nameUUIDFromBytes(name.getBytes()).toString();
+	}
+	
+	public Integer updatedLineCount(int lineCount) {
 		this.lineCount += lineCount;
 		return this.lineCount;
 	}

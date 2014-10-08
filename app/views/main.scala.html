@@ -1,4 +1,4 @@
-@(title: String)(navivation: Html)(content: Html)
+@(title: String, rssUrl: String = null)(navivation: Html)(content: Html)
 @import controllers.Application
 
 <!DOCTYPE html>
@@ -9,6 +9,9 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap-theme.min.css")" />        
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/app.css")" />        
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("img/favicon.png")" />
+        @if(rssUrl != null){
+       	<link href="@rssUrl" type="application/atom+xml" rel="alternate" /> 
+        }
     </head>
     <body>
         <div class="container">
