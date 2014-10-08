@@ -19,9 +19,9 @@ public class EntryHelper {
 			String parts[] =  entry.body.split("\n");
 			for (int i = 0; i < parts.length; i++) {
 				int line = room.lineCount + i + 1;
-				sb.append("<tr  class=\"entry");
+				sb.append("<tr class=\"entry");
 				if (i == 0) {
-					sb.append(" head");
+					sb.append(" head\" id=\""+entry.getEntryId());
 				}
 				sb.append("\">");
 				sb.append("<th class=\"tiny\">");

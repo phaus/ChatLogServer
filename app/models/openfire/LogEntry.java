@@ -48,7 +48,7 @@ public class LogEntry extends Model {
 		}
 
 		public String toString() {
-			return logTimeString + roomId;
+			return roomId + "_" + logTimeString;
 		}
 
 		public boolean equals(Object obj) {
@@ -73,7 +73,7 @@ public class LogEntry extends Model {
 	}
 
 	public String getEntryId() {
-		return getSenderName() + id;
+		return getSenderName() + "_" + id;
 	}
 
 	public int getLineCount() {
@@ -120,4 +120,15 @@ public class LogEntry extends Model {
 	}
 
 	public static Finder<Long, LogEntry> Finder = new Finder<Long, LogEntry>("openfire", Long.class, LogEntry.class);
+	
+	/**
+	 * Finds an Entry for a TimeString in a specific Room.
+	 * @param room
+	 * @param sender
+	 * @param logTimeString
+	 * @return
+	 */
+	public static LogEntry findEntry(Room room, String sender, String logTimeString){
+		return LogEntry.Finder.where().eq("roomId", room.roomId).eq("logTimeString", logTimeString).findUnique();
+	}
 }

@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           					controllers.Rooms.index()
+GET     /entries/:id                           			controllers.Application.show(id: String)
 GET     /users/:uid              						controllers.Users.browse(uid: String)
 GET     /rooms              							controllers.Rooms.index()
 GET     /rooms/$roomId<[0-9]+>              			controllers.Rooms.browse(roomId: Long)
