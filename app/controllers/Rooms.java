@@ -26,14 +26,23 @@ public class Rooms extends Application {
 		if (room == null) {
 			return notFound("room with id " + id + " not found!");
 		}
-        Integer page = getPageFromRequest();
-        Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
-        Integer prev = page > 1 ? page - 1 : null;
-        Integer next = page < div ? page + 1 : null;
-        String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
-        Logger.debug("page: "+page+", prev: "+prev+", next: "+next+", div: "+div);
-		List<LogEntry> entries = room.getEntries(page, order);
-		return ok(browse.render(room, entries, prev, next, page, order));
+		return browseRoom(room);
+	}
+
+	public static Result browseWithName(String roomName) {
+		Room room = Room.Finder.where().eq("name", roomName).findUnique();
+		if (room == null) {
+			return notFound("room with name " + roomName + " not found!");
+		}
+		return browseRoom(room);
+	}
+
+	public static Result showWithName(String roomName, Integer year, Integer month, Integer day) {
+		Room room = Room.Finder.where().eq("name", roomName).findUnique();
+		if (room == null) {
+			return notFound("room with name " + roomName + " not found!");
+		}
+		return showRoom(room, year, month, day);
 	}
 
 	public static Result show(Long id, Integer year, Integer month, Integer day) {
@@ -41,9 +50,24 @@ public class Rooms extends Application {
 		if (room == null) {
 			return notFound("room with id " + id + " not found!");
 		}
+		return showRoom(room, year, month, day);
+	}
+
+	private static Result showRoom(Room room, Integer year, Integer month, Integer day) {
 		DateTime from = DateHelper.getLogTimeForYearMonthDay(year, month, day, false);
 		DateTime to = DateHelper.getLogTimeForYearMonthDay(year, month, day, true);
 		List<LogEntry> entries = room.getEntriesFromTo(from.getMillis(), to.getMillis());
 		return ok(show.render(room, entries, from, to));
+	}
+
+	private static Result browseRoom(Room room) {
+		Integer page = getPageFromRequest();
+		Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
+		Integer prev = page > 1 ? page - 1 : null;
+		Integer next = page < div ? page + 1 : null;
+		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
+		Logger.debug("page: " + page + ", prev: " + prev + ", next: " + next + ", div: " + div);
+		List<LogEntry> entries = room.getEntries(page, order);
+		return ok(browse.render(room, entries, prev, next, page, order));
 	}
 }

@@ -3,11 +3,14 @@
 # ~~~~
 
 # Home page
-GET     /                           			controllers.Rooms.index()
-GET     /users/:uid              				controllers.Users.browse(uid: String)
-GET     /rooms              					controllers.Rooms.index()
-GET     /rooms/:roomId              			controllers.Rooms.browse(roomId: Long)
-GET     /rooms/:roomId/day/:year/:month/:day	controllers.Rooms.show(roomId: Long, year: Integer, month: Integer, day: Integer)
+GET     /                           					controllers.Rooms.index()
+GET     /users/:uid              						controllers.Users.browse(uid: String)
+GET     /rooms              							controllers.Rooms.index()
+GET     /rooms/$roomId<[0-9]+>              			controllers.Rooms.browse(roomId: Long)
+GET     /rooms/:roomName              					controllers.Rooms.browseWithName(roomName: String)
+GET     /rooms/$roomId<[0-9]+>/day/:year/:month/:day	controllers.Rooms.show(roomId: Long, year: Integer, month: Integer, day: Integer)
+GET     /rooms/:roomName/:year/:month/:day			controllers.Rooms.showWithName(roomName: String, year: Integer, month: Integer, day: Integer)
+GET     /rooms/:roomName/day/:year/:month/:day			controllers.Rooms.showWithName(roomName: String, year: Integer, month: Integer, day: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               			controllers.Assets.at(path="/public", file)
