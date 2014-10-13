@@ -19,16 +19,16 @@ public class EntryHelper {
 			String parts[] =  entry.body.split("\n");
 			for (int i = 0; i < parts.length; i++) {
 				int line = room.lineCount + i + 1;
-				sb.append("<tr class=\"entry");
+				sb.append("<tr data-line=\"" + line + "\" class=\"entry");
 				if (i == 0) {
 					sb.append(" head\" id=\""+entry.getEntryId());
 				}
 				sb.append("\">");
 				sb.append("<th class=\"tiny\">");
-				sb.append("<a data-line=\"" + line + "\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line + "\">#" + line + "</a>");
+				sb.append("<a data-link=\"line-link\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line + "\">#" + line + "</a>");
 				sb.append("</th>");
 				if (i == 0) {
-					sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">");
+					sb.append("<td class=\"top narrow\">");
 					sb.append(decorateSenderName(entry.getSenderName()));
 					sb.append("</td>");
 					sb.append("<td>");
@@ -38,20 +38,22 @@ public class EntryHelper {
 						sb.append(ContentHelper.prepare(parts[i]));					
 					}
 					sb.append("</td>");
-					sb.append("<td rowspan=\"" + parts.length + "\" class=\"top narrow\">" + TIME_FORMAT.format(entry.getDate()) + "</td>");
+					sb.append("<td class=\"top narrow\">" + TIME_FORMAT.format(entry.getDate()) + "</td>");
 				} else {
+					sb.append("<td></td>");
 					sb.append("<td>");
 					sb.append(ContentHelper.prepare(parts[i]));
 					sb.append("</td>");
+					sb.append("<td></td>");
 				}
 				sb.append("</tr>");
 			}
 			room.updatedLineCount(parts.length);			
 		} else {
 			int line = room.lineCount + 1;
-			sb.append("<tr class=\"entry head \">");
+			sb.append("<tr data-line=\"" + line + "\" class=\"entry head \">");
 			sb.append("<th class=\"tiny\">");
-			sb.append("<a data-line=\"" + line + "\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line + "\">#" + line + "</a>");
+			sb.append("<a data-link=\"line-link\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line + "\">#" + line + "</a>");
 			sb.append("</th>");
 			sb.append("<td class=\"top narrow\">");
 			sb.append(decorateSenderName(entry.getSenderName()));
