@@ -14,6 +14,9 @@ import javax.persistence.Transient;
 
 import play.db.ebean.Model;
 
+import com.avaje.ebean.RawSql;
+import com.avaje.ebean.RawSqlBuilder;
+
 @Entity
 @Table(name = "ofMucRoom")
 public class Room extends Model {
@@ -29,9 +32,20 @@ public class Room extends Model {
 	public String title;
 	@Column(name = "roomPassword")
 	public String roomPassword;
-
+	
 	public final static int PAGE_SIZE = 200;
 
+	private static String LIST_RAW_SQL = "select distinct r.roomID, r.serviceID, r.name, r.description, r.naturalName, r.roomPassword "
+			+ "FROM ofMucRoom r, ofMucConversationLog l WHERE l.roomID = r.roomID ORDER BY l.logTime ASC";
+	private static RawSql LIST_RAW_SQL_QUERY = RawSqlBuilder  
+												.parse(LIST_RAW_SQL)  
+												.columnMapping("r.roomID",  "roomId")  
+												.columnMapping("r.serviceID",  "serviceId")  
+												.columnMapping("r.name",  "name")
+												.columnMapping("r.description",  "description")
+												.columnMapping("r.naturalName",  "title")
+												.columnMapping("r.roomPassword",  "roomPassword")
+												.create();  	
 	@Transient
 	public int lineCount = 0;
 	
@@ -97,6 +111,11 @@ public class Room extends Model {
 		this.lineCount += lineCount;
 		return this.lineCount;
 	}
+
 	
 	public static Finder<Long, Room> Finder = new Finder<Long, Room>("openfire", Long.class, Room.class);
+
+	public static List<Room> listByDate() {
+		return Finder.setRawSql(LIST_RAW_SQL_QUERY).setDistinct(true).findList();		
+	}
 }

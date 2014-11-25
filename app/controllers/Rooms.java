@@ -17,7 +17,7 @@ import views.html.Rooms.show;
 
 public class Rooms extends Application {
 	public static Result index() {
-		List<Room> rooms = Room.Finder.all();
+		List<Room> rooms = Room.listByDate();
 		return ok(index.render(rooms));
 	}
 
