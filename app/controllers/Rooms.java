@@ -2,7 +2,10 @@ package controllers;
 
 import helpers.DateHelper;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import models.openfire.LogEntry;
 import models.openfire.Room;
@@ -17,7 +20,13 @@ import views.html.Rooms.show;
 
 public class Rooms extends Application {
 	public static Result index() {
-		List<Room> rooms = Room.listByDate();
+		Map<Date, Room> rooms = new TreeMap<Date, Room>();
+		for(Room room : Room.Finder.all()) {
+			if(room != null && room.getLastEntry() != null){
+				rooms.put(room.getLastEntryDate(), room);
+			}
+			
+		}
 		return ok(index.render(rooms));
 	}
 
