@@ -36,7 +36,7 @@ public class Room extends Model {
 	public final static int PAGE_SIZE = 200;
 
 	private static String LIST_RAW_SQL = "select distinct r.roomID, r.serviceID, r.name, r.description, r.naturalName, r.roomPassword "
-			+ "FROM ofMucRoom r, ofMucConversationLog l WHERE l.roomID = r.roomID ORDER BY l.logTime ASC";
+			+ "FROM ofMucRoom r, ofMucConversationLog l WHERE l.roomID = r.roomID ORDER BY l.logTime DESC";
 	private static RawSql LIST_RAW_SQL_QUERY = RawSqlBuilder  
 												.parse(LIST_RAW_SQL)  
 												.columnMapping("r.roomID",  "roomId")  
@@ -62,7 +62,7 @@ public class Room extends Model {
 		return LogEntry.Finder.setMaxRows(1)
 				.where()
 				.eq("roomId", roomId)
-				.order("logTimeString DESC")
+				.order("logTimeString ASC")
 				.findUnique();	
 	}
 	
