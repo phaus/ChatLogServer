@@ -20,10 +20,10 @@ import views.html.Rooms.show;
 
 public class Rooms extends Application {
 	public static Result index() {
-		Map<Date, Room> rooms = new TreeMap<Date, Room>();
+		Map<String, Room> rooms = new TreeMap<String, Room>();
 		for(Room room : Room.Finder.all()) {
 			if(room != null && room.getLastEntry() != null){
-				rooms.put(room.getLastEntryDate(), room);
+				rooms.put(room.getLastEntryDate().toString(), room);
 			}
 			
 		}

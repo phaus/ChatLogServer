@@ -1,6 +1,6 @@
 @import views.addons._
 
-@(rooms: Map[java.util.Date, openfire.Room])
+@(rooms: Map[String, openfire.Room])
 
 @main("ChatLogServer") {
   <li><a href="@routes.Rooms.index()">Home</a></li>
@@ -13,7 +13,7 @@
         <h2 class="room">
             <a title="browse @rooms.get(key).title" href="@routes.Rooms.browse(rooms.get(key).roomId)">@rooms.get(key).title</a> <a title="join @rooms.get(key).title" href="xmpp://@rooms.get(key).getJabberId()?join"><span class="glyphicon glyphicon-log-in"></span></a>
             <br />
-            <small>@rooms.get(key).getEntryCount() message(s) <br />since @key.since()</small>
+            <small>@rooms.get(key).getEntryCount() message(s) <br />since @rooms.get(key).getLastEntryDate().since()</small>
         </h2>
     </div>
     }
