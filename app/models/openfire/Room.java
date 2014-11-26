@@ -62,7 +62,7 @@ public class Room extends Model {
 		return LogEntry.Finder.setMaxRows(1)
 				.where()
 				.eq("roomId", roomId)
-				.order("logTimeString DESC")
+				.order("logTimeString ASC")
 				.findUnique();	
 	}
 	
