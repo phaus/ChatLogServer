@@ -3,8 +3,6 @@ package controllers;
 import helpers.DateHelper;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import models.openfire.LogEntry;
 import models.openfire.Room;
