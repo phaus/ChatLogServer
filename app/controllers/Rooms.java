@@ -19,13 +19,7 @@ import views.html.Rooms.show;
 
 public class Rooms extends Application {
 	public static Result index() {
-		Map<Long, Room> rooms = new TreeMap<Long, Room>();
-		for(Room room : Room.Finder.all()) {
-			if(room != null && room.getLastEntry() != null){
-					rooms.put(room.getLastEntryDate().getTime(), room);
-				
-			}
-		}
+		List<Room> rooms = Room.listByDate();
 		return ok(index.render(rooms));
 	}
 
