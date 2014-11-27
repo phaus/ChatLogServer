@@ -35,16 +35,21 @@ public class Room extends Model {
 	
 	public final static int PAGE_SIZE = 200;
 
-	private static String LIST_RAW_SQL = "select distinct r.roomID, r.serviceID, r.name, r.description, r.naturalName, r.roomPassword "
-			+ "FROM ofMucRoom r, ofMucConversationLog l WHERE l.roomID = r.roomID ORDER BY l.logTime DESC";
+	private static String LIST_RAW_SQL = "SELECT ofMucConversationLog.roomID, max(logTime) as mTime, ofMucRoom.roomID, ofMucRoom.serviceID, ofMucRoom.name, ofMucRoom.description, ofMucRoom.naturalName, ofMucRoom.roomPassword "
+			+ "FROM ofMucConversationLog, ofMucRoom "
+			+ "WHERE ofMucRoom.roomID = ofMucConversationLog.roomID "
+			+ "GROUP BY ofMucConversationLog.roomID "
+			+ "ORDER BY mTime DESC";
 	private static RawSql LIST_RAW_SQL_QUERY = RawSqlBuilder  
 												.parse(LIST_RAW_SQL)  
-												.columnMapping("r.roomID",  "roomId")  
-												.columnMapping("r.serviceID",  "serviceId")  
-												.columnMapping("r.name",  "name")
-												.columnMapping("r.description",  "description")
-												.columnMapping("r.naturalName",  "title")
-												.columnMapping("r.roomPassword",  "roomPassword")
+												.columnMapping("ofMucRoom.roomID",  "roomId")  
+												.columnMapping("ofMucRoom.serviceID",  "serviceId")  
+												.columnMapping("ofMucRoom.name",  "name")
+												.columnMapping("ofMucRoom.description",  "description")
+												.columnMapping("ofMucRoom.naturalName",  "title")
+												.columnMapping("ofMucRoom.roomPassword",  "roomPassword")
+												.columnMappingIgnore("ofMucConversationLog.roomID")
+												.columnMappingIgnore("max(logTime)")
 												.create();  	
 	@Transient
 	public int lineCount = 0;
@@ -62,7 +67,7 @@ public class Room extends Model {
 		return LogEntry.Finder.setMaxRows(1)
 				.where()
 				.eq("roomId", roomId)
-				.order("logTimeString ASC")
+				.order("logTimeString DESC")
 				.findUnique();	
 	}
 	
