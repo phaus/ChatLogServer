@@ -2,7 +2,6 @@ package controllers;
 
 import helpers.DateHelper;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,12 +19,12 @@ import views.html.Rooms.show;
 
 public class Rooms extends Application {
 	public static Result index() {
-		Map<String, Room> rooms = new TreeMap<String, Room>();
+		Map<Long, Room> rooms = new TreeMap<Long, Room>();
 		for(Room room : Room.Finder.all()) {
 			if(room != null && room.getLastEntry() != null){
-				rooms.put(room.getLastEntryDate().toString(), room);
+					rooms.put(room.getLastEntryDate().getTime(), room);
+				
 			}
-			
 		}
 		return ok(index.render(rooms));
 	}

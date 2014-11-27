@@ -1,13 +1,13 @@
 @import views.addons._
 
-@(rooms: Map[String, openfire.Room])
+@(rooms: Map[Long, openfire.Room])
 
 @main("ChatLogServer") {
   <li><a href="@routes.Rooms.index()">Home</a></li>
   <li class="active">Rooms</li>
 } {
 <div class="row">
-    @for(key <- rooms.keySet()) {
+    @for(key <- rooms.keySet().iterator) {
     @if(rooms.get(key).getEntryCount() > 0){
     <div class="col-lg-3 col-md-3 col-sm-6">
         <h2 class="room">
