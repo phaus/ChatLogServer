@@ -2,8 +2,11 @@ package models.openfire;
 
 import helpers.openfire.OpenFireHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -13,9 +16,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import play.db.ebean.Model;
+import play.libs.Json;
+import play.mvc.Http.Request;
 
 import com.avaje.ebean.RawSql;
 import com.avaje.ebean.RawSqlBuilder;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Entity
 @Table(name = "ofMucRoom")
@@ -34,7 +40,12 @@ public class Room extends Model {
 	public String roomPassword;
 	
 	public final static int PAGE_SIZE = 200;
-
+	private final static TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
+	private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.GERMAN);
+	static {
+		DATE_FORMAT.setTimeZone(TIMEZONE);
+	}
+	
 	private static String LIST_RAW_SQL = "SELECT ofMucConversationLog.roomID, max(logTime) as mTime, ofMucRoom.roomID, ofMucRoom.serviceID, ofMucRoom.name, ofMucRoom.description, ofMucRoom.naturalName, ofMucRoom.roomPassword "
 			+ "FROM ofMucConversationLog, ofMucRoom "
 			+ "WHERE ofMucRoom.roomID = ofMucConversationLog.roomID "
@@ -122,5 +133,16 @@ public class Room extends Model {
 
 	public static List<Room> listByDate() {
 		return Finder.setRawSql(LIST_RAW_SQL_QUERY).setDistinct(true).findList();		
+	}
+	
+	public ObjectNode toJson(Request request){
+		ObjectNode jsonRoom =  Json.newObject();
+		jsonRoom.put("id", roomId);
+		jsonRoom.put("name", title);
+		jsonRoom.put("lastEntryDate", DATE_FORMAT.format(getLastEntryDate()));
+		jsonRoom.put("entryCount", getEntryCount());
+		jsonRoom.put("jabberId", getJabberId());
+		jsonRoom.put("url", controllers.routes.Rooms.jsonWithName(name).absoluteURL(request, controllers.Application.REQUEST_SECURE).toString());
+		return jsonRoom;
 	}
 }

@@ -26,6 +26,17 @@ public class Rooms extends Application {
 		return ok(index.render(rooms));
 	}
 
+	public static Result jsonIndex() {
+		List<Room> rooms = Room.listByDate();
+		ObjectNode result = Json.newObject();
+		ArrayNode roomsJson = result.arrayNode();
+		for(Room room : rooms){
+			roomsJson.add(room.toJson(request()));
+		}
+		result.put("rooms", roomsJson);
+		return ok(result);	
+	}
+	
 	public static Result browse(Long id) {
 		Room room = Room.Finder.byId(id);
 		if (room == null) {
@@ -78,11 +89,10 @@ public class Rooms extends Application {
 		Logger.debug("feed page: " + page + ", prev: " + prev + ", next: " + next + ", div: " + div);
 		List<LogEntry> entries = room.getEntries(page, order);		
 		LogEntry lastEntry = room.getLastEntry();
-		//routes.Application.show("1").toString();
 		return ok(views.xml.Rooms.feed.render(room, lastEntry, entries, request()));
 	}
 	
-	public static Result jsonWithName(String roomName){
+	public static Result jsonWithName(String roomName) {
 		Room room = Room.Finder.where().eq("name", roomName).findUnique();
 		ObjectNode result = Json.newObject();
 		if (room == null) {
@@ -97,6 +107,7 @@ public class Rooms extends Application {
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
 		
 		ObjectNode links = Json.newObject();
+		links.put("index", routes.Rooms.jsonIndex().absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
 		links.put("first", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
 		links.put("next", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+next);
 		links.put("current", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+page);
@@ -114,8 +125,11 @@ public class Rooms extends Application {
 		if (room == null) {
 			result.put("error", "room with name " + roomName + " not found!");
 			return notFound(result);
-		}	
-		return ok("");
+		}
+		DateTime from = DateHelper.getLogTimeForYearMonthDay(year, month, day, false);
+		DateTime to = DateHelper.getLogTimeForYearMonthDay(year, month, day, true);
+		List<LogEntry> entries = room.getEntriesFromTo(from.getMillis(), to.getMillis());
+		return ok(entriesAsJson(result, room, entries));
 	}
 	
 	public static Result feed(Long id) {
