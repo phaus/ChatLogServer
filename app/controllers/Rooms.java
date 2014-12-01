@@ -1,6 +1,7 @@
 package controllers;
 
 import helpers.DateHelper;
+import helpers.EntryHelper;
 
 import java.util.List;
 
@@ -9,7 +10,11 @@ import models.openfire.Room;
 
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import play.Logger;
+import play.libs.Json;
 import play.mvc.Result;
 import views.html.Rooms.browse;
 import views.html.Rooms.index;
@@ -74,7 +79,41 @@ public class Rooms extends Application {
 		List<LogEntry> entries = room.getEntries(page, order);		
 		LogEntry lastEntry = room.getLastEntry();
 		//routes.Application.show("1").toString();
-		return ok(views.xml.Rooms.feed.render(room, lastEntry, entries));
+		return ok(views.xml.Rooms.feed.render(room, lastEntry, entries, request()));
+	}
+	
+	public static Result jsonWithName(String roomName){
+		Room room = Room.Finder.where().eq("name", roomName).findUnique();
+		ObjectNode result = Json.newObject();
+		if (room == null) {
+			result.put("error", "room with name " + roomName + " not found!");
+			return notFound(result);
+		}
+		Integer page = getPageFromRequest();
+		Integer div = room.getEntryCount() / Room.PAGE_SIZE/10 + 1;
+		Integer prev = page > 1 ? page - 1 : 1;
+		Integer next = page < div ? page + 1 : 1;
+		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
+		
+		ObjectNode links = Json.newObject();
+		links.put("first", routes.Rooms.jsonWithName(room.name).absoluteURL(request()).toString());	
+		links.put("next", routes.Rooms.jsonWithName(room.name).absoluteURL(request()).toString()+"?page="+next);
+		links.put("prev", routes.Rooms.jsonWithName(room.name).absoluteURL(request()).toString()+"?page="+prev);
+		links.put("last", routes.Rooms.jsonWithName(room.name).absoluteURL(request()).toString()+"?page="+div);
+		result.put("links", links);
+		
+		List<LogEntry> entries = room.getEntries(page, order);
+		return ok(entriesAsJson(result, room, entries));
+	}
+	
+	public static Result jsonWithNameAndDate(String roomName, Integer year, Integer month, Integer day){
+		Room room = Room.Finder.where().eq("name", roomName).findUnique();
+		ObjectNode result = Json.newObject();
+		if (room == null) {
+			result.put("error", "room with name " + roomName + " not found!");
+			return notFound(result);
+		}	
+		return ok("");
 	}
 	
 	public static Result feed(Long id) {
@@ -90,8 +129,16 @@ public class Rooms extends Application {
 		Logger.debug("feed page: " + page + ", prev: " + prev + ", next: " + next + ", div: " + div);
 		List<LogEntry> entries = room.getEntries(page, order);		
 		LogEntry lastEntry = room.getLastEntry();
-		//routes.Application.show("1").toString();
-		return ok(views.xml.Rooms.feed.render(room, lastEntry, entries));
+		return ok(views.xml.Rooms.feed.render(room, lastEntry, entries, request()));
+	}
+	
+	private static ObjectNode entriesAsJson(ObjectNode result, Room room, List<LogEntry> entries){
+		ArrayNode entriesJson = result.arrayNode();
+		for(LogEntry entry : entries){
+			entriesJson.add(EntryHelper.getJson(room, entry, request()));
+		}
+		result.put("entries", entriesJson);
+		return result;
 	}
 	
 	private static Result browseRoom(Room room) {

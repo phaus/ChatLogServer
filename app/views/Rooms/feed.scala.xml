@@ -1,5 +1,5 @@
 @import helpers.ContentHelper
-@(room: openfire.Room, lastEntry: openfire.LogEntry, entries: List[openfire.LogEntry])
+@(room: openfire.Room, lastEntry: openfire.LogEntry, entries: List[openfire.LogEntry], request: play.mvc.Http.Request)
 
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom">
@@ -13,7 +13,7 @@
     @for((entry, index) <- entries.zipWithIndex) {	
  	<entry>
         <title>@entry.getSenderName(): @entry.subject</title>
-        <link type="text/html" href="@routes.Application.show(entry.getEntryId())" rel="alternate"/>
+        <link type="text/html" href="@routes.Application.show(entry.getEntryId()).absoluteURL(request)" rel="alternate"/>
         <id>@entry.getEntryId()</id>
         <published>@entry.getUpdated()</published>
         <updated>@entry.getUpdated()</updated>
