@@ -123,7 +123,7 @@ public class LogEntry extends Model {
 		}
 		return sb.toString();
 	}
-
+	
 	public static Finder<Long, LogEntry> Finder = new Finder<Long, LogEntry>("openfire", Long.class, LogEntry.class);
 	
 	/**
