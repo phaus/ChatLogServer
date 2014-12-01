@@ -71,7 +71,7 @@ public class Rooms extends Application {
 			return notFound("room with name " + roomName + " not found!");
 		}
 		Integer page = getPageFromRequest();
-		Integer div = room.getEntryCount() / Room.PAGE_SIZE/10 + 1;
+		Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
 		Integer prev = page > 1 ? page - 1 : null;
 		Integer next = page < div ? page + 1 : null;
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
@@ -91,7 +91,7 @@ public class Rooms extends Application {
 		}
 		Integer page = getPageFromRequest();
 		Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
-		Logger.info("div: "+div+" room count: "+room.getEntryCount());
+		Logger.debug("div: "+div+" room count: "+room.getEntryCount());
 		Integer prev = page > 1 ? page - 1 : page;
 		Integer next = page < div ? page + 1 : page;
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
@@ -99,6 +99,7 @@ public class Rooms extends Application {
 		ObjectNode links = Json.newObject();
 		links.put("first", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
 		links.put("next", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+next);
+		links.put("current", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+page);
 		links.put("prev", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+prev);
 		links.put("last", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+div);
 		result.put("links", links);
@@ -123,7 +124,7 @@ public class Rooms extends Application {
 			return notFound("room with id " + id + " not found!");
 		}		
 		Integer page = getPageFromRequest();
-		Integer div = room.getEntryCount() / Room.PAGE_SIZE/10 + 1;
+		Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
 		Integer prev = page > 1 ? page - 1 : null;
 		Integer next = page < div ? page + 1 : null;
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
