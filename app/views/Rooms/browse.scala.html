@@ -14,7 +14,7 @@
 <ul class="pager">
     <li class="previous">
         @if(prev != null){
-        <a href="@routes.Rooms.browse(room.roomId)?page=@prev">&larr; prev</a>
+        <a href="@routes.Rooms.browseWithName(room.name)?page=@prev">&larr; prev</a>
         }
     </li>
     <li>
@@ -24,7 +24,7 @@
     </li>
     <li class="next">
         @if(next != null){
-        <a href="@routes.Rooms.browse(room.roomId)?page=@next">next &rarr;</a>
+        <a href="@routes.Rooms.browseWithName(room.name)?page=@next">next &rarr;</a>
         }
     </li>
 </ul>
@@ -40,7 +40,7 @@
 <ul class="pager">
     <li class="previous">
         @if(prev != null){
-        <a href="@routes.Rooms.browse(room.roomId)?page=@prev">&larr; prev</a>
+        <a href="@routes.Rooms.browseWithName(room.name)?page=@prev">&larr; prev</a>
         }
     </li>
     <li>
@@ -50,7 +50,7 @@
     </li>    
     <li class="next">
         @if(next != null){
-        <a href="@routes.Rooms.browse(room.roomId)?page=@next">next &rarr;</a>
+        <a href="@routes.Rooms.browseWithName(room.name)?page=@next">next &rarr;</a>
         }
     </li>
 </ul>

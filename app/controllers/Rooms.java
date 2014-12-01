@@ -91,8 +91,8 @@ public class Rooms extends Application {
 		}
 		Integer page = getPageFromRequest();
 		Integer div = room.getEntryCount() / Room.PAGE_SIZE/10 + 1;
-		Integer prev = page > 1 ? page - 1 : 1;
-		Integer next = page < div ? page + 1 : 1;
+		Integer prev = page > 1 ? page - 1 : page;
+		Integer next = page < div ? page + 1 : page;
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
 		
 		ObjectNode links = Json.newObject();
