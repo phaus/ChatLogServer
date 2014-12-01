@@ -90,7 +90,7 @@ public class Rooms extends Application {
 			return notFound(result);
 		}
 		Integer page = getPageFromRequest();
-		Integer div = room.getEntryCount() / Room.PAGE_SIZE/10 + 1;
+		Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
 		Logger.info("div: "+div+" room count: "+room.getEntryCount());
 		Integer prev = page > 1 ? page - 1 : page;
 		Integer next = page < div ? page + 1 : page;
