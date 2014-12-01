@@ -22,7 +22,22 @@ You could also create a package with
 
     activator dist
     
+## create a Docker Image
+
+This creates your Docker Folder Structure + Docker file.
+
+    sbt docker:stage
     
+
+You need to setup and configure your Docker Host before you perform the following steps:
+
+    sbt docker:publishLocal
+    
+After that you can run your Docker Container with
+
+    docker run -it -p 9000:9000 chatlogserver:1.0-SNAPSHOT
+       
+You need to also provide a proper Database Setup (see __Configuration__ )     
     
 ## Screens
 
