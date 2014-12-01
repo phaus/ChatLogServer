@@ -91,15 +91,16 @@ public class Rooms extends Application {
 		}
 		Integer page = getPageFromRequest();
 		Integer div = room.getEntryCount() / Room.PAGE_SIZE/10 + 1;
+		Logger.info("div: "+div+" room count: "+room.getEntryCount());
 		Integer prev = page > 1 ? page - 1 : page;
 		Integer next = page < div ? page + 1 : page;
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
 		
 		ObjectNode links = Json.newObject();
-		links.put("first", routes.Rooms.jsonWithName(room.name).absoluteURL(request()).toString());	
-		links.put("next", routes.Rooms.jsonWithName(room.name).absoluteURL(request()).toString()+"?page="+next);
-		links.put("prev", routes.Rooms.jsonWithName(room.name).absoluteURL(request()).toString()+"?page="+prev);
-		links.put("last", routes.Rooms.jsonWithName(room.name).absoluteURL(request()).toString()+"?page="+div);
+		links.put("first", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
+		links.put("next", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+next);
+		links.put("prev", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+prev);
+		links.put("last", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+div);
 		result.put("links", links);
 		
 		List<LogEntry> entries = room.getEntries(page, order);
