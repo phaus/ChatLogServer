@@ -12,7 +12,8 @@ import views.html.Application.*;
 public class Application extends Controller {
 
 	public final static String ISSUE_TRACKER_URL = ConfigFactory.load().getString("issue.tracker.url");
-
+	public final static boolean REQUEST_SECURE = getRequestSecure();
+	
 	public static Result index() {
 		return ok(index.render());
 	}
@@ -45,4 +46,11 @@ public class Application extends Controller {
 	protected static String getQueryValue(String key, String defaultValue) {
 		return request().getQueryString(key) != null ? request().getQueryString(key) : defaultValue;
 	}
+	
+	private static Boolean getRequestSecure() {
+		if(ConfigFactory.load().hasPath("request.secure")){
+			return Boolean.parseBoolean(ConfigFactory.load().getString("request.secure"));
+		}
+		return false;
+	}	
 }

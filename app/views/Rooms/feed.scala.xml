@@ -13,7 +13,7 @@
     @for((entry, index) <- entries.zipWithIndex) {	
  	<entry>
         <title>@entry.getSenderName(): @entry.subject</title>
-        <link type="text/html" href="@routes.Application.show(entry.getEntryId()).absoluteURL(request)" rel="alternate"/>
+        <link type="text/html" href="@routes.Application.show(entry.getEntryId()).absoluteURL(request, controllers.Application.REQUEST_SECURE)" rel="alternate"/>
         <id>@entry.getEntryId()</id>
         <published>@entry.getUpdated()</published>
         <updated>@entry.getUpdated()</updated>

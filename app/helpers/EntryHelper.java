@@ -33,7 +33,7 @@ public class EntryHelper {
 		entryJson.put("subject", entry.subject);
 		entryJson.put("content", entry.body);
 		entryJson.put("date", DATE_FORMAT.format(entry.getDate()));
-		entryJson.put("link", controllers.routes.Application.show(entry.getEntryId()).absoluteURL(request));
+		entryJson.put("link", controllers.routes.Application.show(entry.getEntryId()).absoluteURL(request, controllers.Application.REQUEST_SECURE));
 		return entryJson;
 	}
 	
