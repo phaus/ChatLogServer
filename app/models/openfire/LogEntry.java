@@ -68,6 +68,13 @@ public class LogEntry extends Model {
 		return parts != null && parts.length > 0 ? parts[0].trim() : this.sender;
 	}
 
+	public String getTitle() {
+		if(this.subject != null) {
+			return this.subject;
+		}
+		return getWords(this.body, 10);
+	}
+	
 	public String getUpdated() {
 		return DateHelper.getIsoDate(getDate());
 	}
@@ -135,5 +142,16 @@ public class LogEntry extends Model {
 	 */
 	public static LogEntry findEntry(Room room, String sender, String logTimeString){
 		return LogEntry.Finder.where().eq("roomId", room.roomId).eq("logTimeString", logTimeString).findUnique();
+	}
+
+	private String getWords(String content, int count){
+		StringBuilder sb = new StringBuilder();
+		if(content != null){
+			String parts[] = content.split(" ");
+			for(int i=0; i < Math.min(parts.length, count); i++){
+				sb.append(parts[i]).append(" ");
+			}
+		}
+		return sb.toString();
 	}
 }

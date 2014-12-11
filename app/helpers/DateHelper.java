@@ -6,7 +6,7 @@ import java.util.Date;
 import org.joda.time.DateTime;
 
 public class DateHelper {
-	private final static SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat("dd MMM yyyy HH:mm:ssZ");
+	private final static SimpleDateFormat RFC_3339_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 	
 	public static DateTime getLogTimeForYearMonthDay(int year, int month, int day, Boolean inc) {
 		DateTime dt = null;
@@ -19,6 +19,6 @@ public class DateHelper {
 	}
 	
 	public static String getIsoDate(Date date){
-		return ISO_8601_FORMAT.format(date);
+		return RFC_3339_FORMAT.format(date);
 	}
 }
