@@ -12,7 +12,7 @@
     <id>urn:uuid:@room.getUUID()</id>	
     @for((entry, index) <- entries.zipWithIndex) {	
  	<entry>
-        <title>@entry.getSenderName(): @entry.getTitle()</title>
+        <title>@entry.getSenderName()</title>
         <link type="text/html" href="@routes.Application.show(entry.getEntryId()).absoluteURL(request, controllers.Application.REQUEST_SECURE)" rel="alternate"/>
         <author>
 			<name>@entry.getSenderName()</name>
