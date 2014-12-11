@@ -25,7 +25,13 @@ public class Rooms extends Application {
 		List<Room> rooms = Room.listByDate();
 		return ok(index.render(rooms));
 	}
-
+	
+	public static Result feedAll() {
+		List<LogEntry> entries = LogEntry.getEntries(1, "desc");
+		LogEntry lastEntry = LogEntry.getLastEntry();
+		return ok(views.xml.Rooms.feed_all.render(lastEntry, entries, request()));
+	}
+	
 	public static Result jsonIndex() {
 		List<Room> rooms = Room.listByDate();
 		ObjectNode result = Json.newObject();

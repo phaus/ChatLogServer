@@ -2,7 +2,7 @@
 
 @(rooms: List[openfire.Room])
 
-@main("ChatLogServer") {
+@main("ChatLogServer", routes.Rooms.feedAll().toString()) {
   <li><a href="@routes.Rooms.index()">Home</a></li>
   <li class="active">Rooms</li>
 } {

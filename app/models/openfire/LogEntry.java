@@ -33,7 +33,9 @@ public class LogEntry extends Model {
 	public String nickname;
 	public String subject;
 	public String body;
-
+	
+	public final static int PAGE_SIZE = 200;
+	
 	@Transient
 	public DateTime logTime = null;
 
@@ -143,7 +145,23 @@ public class LogEntry extends Model {
 	public static LogEntry findEntry(Room room, String sender, String logTimeString){
 		return LogEntry.Finder.where().eq("roomId", room.roomId).eq("logTimeString", logTimeString).findUnique();
 	}
-
+	
+	public static List<LogEntry> getEntries(Integer page, String order) {
+		int p = page != null ? page : 1;
+		List<LogEntry> entries = LogEntry.Finder
+				.where()
+				.order("logTimeString "+order)
+				.findPagingList(PAGE_SIZE).getPage(p-1).getList();
+		return entries;
+	}
+	
+	public static LogEntry getLastEntry() {
+		return LogEntry.Finder.setMaxRows(1)
+				.where()
+				.order("logTimeString DESC")
+				.findUnique();	
+	}
+	
 	private String getWords(String content, int count){
 		StringBuilder sb = new StringBuilder();
 		if(content != null){

@@ -1,0 +1,30 @@
+@import helpers.ContentHelper
+@(lastEntry: openfire.LogEntry, entries: List[openfire.LogEntry], request: play.mvc.Http.Request)
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom">
+	<title>All Messages</title>
+	<link type="text/html" href="@routes.Rooms.index()" rel="alternate"/>
+    <updated>@lastEntry.getUpdated()</updated>
+    <author>
+        <name>@lastEntry.getSenderName()</name>
+    </author>
+    <id>urn:uuid:all</id>	
+    @for((entry, index) <- entries.zipWithIndex) {	
+ 	<entry>
+        <title>@entry.getSenderName(): @entry.getTitle()</title>
+        <link type="text/html" href="@routes.Application.show(entry.getEntryId()).absoluteURL(request, controllers.Application.REQUEST_SECURE)" rel="alternate"/>
+        <author>
+			<name>@entry.getSenderName()</name>
+		</author>
+        <id>@entry.getEntryId()</id>
+        <published>@entry.getUpdated()</published>
+        <updated>@entry.getUpdated()</updated>
+        <summary type="html">
+        <![CDATA[
+   		@Html(ContentHelper.prepare(entry.body))
+        ]]>
+        </summary>
+    </entry>   
+    }
+</feed>
