@@ -33,3 +33,5 @@ server.pid
 /dist/
 .cache
 
+projectFilesBackup/.idea/libraries/SBT__org_scala_lang_scala_library_2_11_1.xml
+projectFilesBackup/.idea/libraries/SBT__scala_2_11_1.xml

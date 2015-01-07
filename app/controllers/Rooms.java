@@ -56,7 +56,7 @@ public class Rooms extends Application {
 		if (room == null) {
 			return notFound("room with name " + roomName + " not found!");
 		}
-		return browseRoom(room);
+		return redirect(routes.Rooms.browse(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE));
 	}
 
 	public static Result showWithName(String roomName, Integer year, Integer month, Integer day) {
@@ -64,7 +64,7 @@ public class Rooms extends Application {
 		if (room == null) {
 			return notFound("room with name " + roomName + " not found!");
 		}
-		return showRoom(room, year, month, day);
+		return redirect(routes.Rooms.show(room.roomId, year, month, day).absoluteURL(request(), controllers.Application.REQUEST_SECURE));
 	}
 
 	public static Result show(Long id, Integer year, Integer month, Integer day) {
@@ -114,15 +114,41 @@ public class Rooms extends Application {
 		
 		ObjectNode links = Json.newObject();
 		links.put("index", routes.Rooms.jsonIndex().absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
-		links.put("first", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
-		links.put("next", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+next);
-		links.put("current", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+page);
-		links.put("prev", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+prev);
-		links.put("last", routes.Rooms.jsonWithName(room.name).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+div);
+		links.put("first",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
+		links.put("next",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+next);
+		links.put("current",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+page);
+		links.put("prev",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+prev);
+		links.put("last", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+div);
+		result.put("links", links);	
+		List<LogEntry> entries = room.getEntries(page, order);
+		return ok(entriesAsJson(result, room, entries));
+	}
+	
+	public static Result json(Long id){
+		Room room = Room.Finder.byId(id);
+		ObjectNode result = Json.newObject();
+		if (room == null) {
+			result.put("error", "room with id " + id + " not found!");
+			return notFound(result);
+		}
+		Integer page = getPageFromRequest();
+		Integer div = room.getEntryCount() / Room.PAGE_SIZE + 1;
+		Logger.debug("div: "+div+" room count: "+room.getEntryCount());
+		Integer prev = page > 1 ? page - 1 : page;
+		Integer next = page < div ? page + 1 : page;
+		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
+		
+		ObjectNode links = Json.newObject();
+		links.put("index", routes.Rooms.jsonIndex().absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
+		links.put("first",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());	
+		links.put("next",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+next);
+		links.put("current",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+page);
+		links.put("prev",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+prev);
+		links.put("last",  routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()+"?page="+div);
 		result.put("links", links);
 		
 		List<LogEntry> entries = room.getEntries(page, order);
-		return ok(entriesAsJson(result, room, entries));
+		return ok(entriesAsJson(result, room, entries));		
 	}
 	
 	public static Result jsonWithNameAndDate(String roomName, Integer year, Integer month, Integer day){
@@ -132,10 +158,20 @@ public class Rooms extends Application {
 			result.put("error", "room with name " + roomName + " not found!");
 			return notFound(result);
 		}
+		return redirect(routes.Rooms.jsonWithDate(room.roomId, year, month, day).absoluteURL(request(), controllers.Application.REQUEST_SECURE));
+	}
+	
+	public static Result jsonWithDate(Long id, Integer year, Integer month, Integer day){
+		Room room = Room.Finder.byId(id);
+		ObjectNode result = Json.newObject();
+		if (room == null) {
+			result.put("error", "room with id " + id + " not found!");
+			return notFound(result);
+		}
 		DateTime from = DateHelper.getLogTimeForYearMonthDay(year, month, day, false);
 		DateTime to = DateHelper.getLogTimeForYearMonthDay(year, month, day, true);
 		List<LogEntry> entries = room.getEntriesFromTo(from.getMillis(), to.getMillis());
-		return ok(entriesAsJson(result, room, entries));
+		return ok(entriesAsJson(result, room, entries));	
 	}
 	
 	public static Result feed(Long id) {
