@@ -21,5 +21,10 @@ libraryDependencies ++= Seq(
   javaWs,
   "mysql" % "mysql-connector-java" % "5.1.18",
   "com.google.guava" % "guava" % "17.0",
-  "com.googlecode.owasp-java-html-sanitizer" % "owasp-java-html-sanitizer" % "r239"
+  "com.googlecode.owasp-java-html-sanitizer" % "owasp-java-html-sanitizer" % "r239",
+  "com.innoq.webjars" % "innoq-styles" % "0.1.1"
+)
+
+resolvers += (
+    "nexus.innoq.com snapshots" at "https://nexus.innoq.com/nexus/content/repositories/snapshots-private/"
 )
