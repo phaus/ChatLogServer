@@ -19,7 +19,7 @@
     </li>
     <li>
 		<a href="@routes.Rooms.browse(room.roomId)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
-		<span class="glyphicon @if(order.equals("asc")){glyphicon-chevron-up}else{glyphicon-chevron-down}"></span>
+		<i class="fa fa-sort-amount-@order"></i>
 		</a>
     </li>
     <li class="next">
@@ -45,7 +45,7 @@
     </li>
     <li>
 		<a href="@routes.Rooms.browse(room.roomId)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
-		<span class="glyphicon @if(order.equals("asc")){glyphicon-chevron-up}else{glyphicon-chevron-down}"></span>
+		<i class="fa fa-sort-amount-@order"></i>
 		</a>
     </li>    
     <li class="next">

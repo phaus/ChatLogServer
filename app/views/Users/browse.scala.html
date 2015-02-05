@@ -19,7 +19,7 @@
     </li>
     <li>
 		<a href="@routes.Users.browse(user.username)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
-		<span class="glyphicon @if(order.equals("asc")){glyphicon-chevron-up}else{glyphicon-chevron-down}"></span>
+		<i class="fa fa-sort-amount-@order"></i>
 		</a>
     </li>
     <li class="next">
@@ -36,7 +36,7 @@
 	</tr>
     @for(entry <- entries) {
     <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
-		<td><span class="glyphicon glyphicon-th-list"></span> <a href="@routes.Rooms.browse(entry.roomId)">@entry.getRoomName()</a></td>
+		<td><i class="fa fa-comments"></i> <a href="@routes.Rooms.browse(entry.roomId)">@entry.getRoomName()</a></td>
 		<td><div class="content">@if(entry.subject){ changed topic to <b>@entry.subject</b> } else { @Html(ContentHelper.prepare(entry.body)) } </div></td>
         <td class="narrow"><a href="@routes.Rooms.show(entry.roomId, entry.getYear(), entry.getMonth(), entry.getDay())">@entry.getDate().format("dd.MM.yyyy HH:mm:ss")</a></td>
 	</tr>
@@ -50,7 +50,7 @@
     </li>
     <li>
 		<a href="@routes.Users.browse(user.username)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
-		<span class="glyphicon @if(order.equals("asc")){glyphicon-chevron-up}else{glyphicon-chevron-down}"></span>
+		<i class="fa fa-sort-amount-@order"></i>
 		</a>
     </li>
     <li class="next">
