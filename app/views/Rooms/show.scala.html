@@ -6,11 +6,10 @@
 @(room: openfire.Room, entries: List[openfire.LogEntry], from: DateTime, to: DateTime)
 
 @main("ChatLogServer", routes.Rooms.feedWithName(room.name).toString()) {
-    <li><a href="@routes.Rooms.index()">Home</a></li>
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
   	<li><a href="@routes.Rooms.browse(room.roomId)">@room.title</a></li>
   	<li class="active">@from.toDate().format("dd.MM.yyyy")</li>
-	<li><a href="xmpp://@room.getJabberId()?join">join</a></li>
+	<li class="pull-right"><a href="xmpp://@room.getJabberId()?join">join</a></li>
 } {
 <h2><small>Messages in Room</small> @room.title <small>from @from.toDate().format("dd.MM.yyyy")</small></h2>
 <table class="table">

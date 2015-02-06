@@ -1,7 +1,6 @@
 @(room: openfire.Room, entry: openfire.LogEntry)
 
 @main("ChatLogServer") {
-	<li><a href="@routes.Rooms.index()">Home</a></li>
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
   	<li><a href="@routes.Rooms.browse(room.roomId)">@room.title</a></li>
   	<li><a href="@routes.Rooms.showWithName(room.name, entry.getYear(), entry.getMonth(), entry.getDay())">@entry.getDate().format("dd.MM.yyyy HH:mm:ss")</a></li>

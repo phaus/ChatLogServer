@@ -14,17 +14,33 @@
     </head>
     <body>
         <div class="container">
+			<div class="navbar navbar-default">
+				<div class="navbar-header">
+					<button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button"></button>
+	                 <a href="@routes.Rooms.index()" class="navbar-brand">
+						<img height="26px" alt="App Logo" src="@routes.Assets.at("img/logo.png")" />
+					</a>
+	                
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav">  
+						<li><a href="@routes.Rooms.index()">Home</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+					  	<li class="pull-right"><a href="/">Dashboard</a></li>
+					  	@if(Application.ISSUE_TRACKER_URL){
+			  				<li class="pull-right"><a target="_issues" href="@Application.ISSUE_TRACKER_URL">Issues</a></li>
+		  				}					
+					</ul>
+				</div>
+			</div>      
         	<ol class="breadcrumb">
-  				@navivation  
-			  	<li class="pull-right"><a href="/">Dashboard</a></li>
-			  	@if(Application.ISSUE_TRACKER_URL){
-	  				<li class="pull-right"><a target="_issues" href="@Application.ISSUE_TRACKER_URL">Issues</a></li>
-  				}			
+  				@navivation  			
 			</ol>
             @content
             <hr>
             <footer>
-                <p><small>free icons by  https://www.iconfinder.com</small></p>
+                <p><small>Logo by  https://www.iconfinder.com, Icons by http://fortawesome.github.io/Font-Awesome</small></p>
             </footer>
         </div>
         <script src="@routes.Assets.at("js/jquery-2.1.1.min.js")" type="text/javascript"></script>
