@@ -7,6 +7,7 @@ import models.openfire.Room;
 import models.openfire.User;
 import play.mvc.Result;
 import views.html.Users.browse;
+import views.html.Users.index;
 
 public class Users extends Application {
 	
@@ -23,5 +24,10 @@ public class Users extends Application {
 			List<LogEntry> entries = user.getEntries(page, order);
 			return ok(browse.render(user, entries, prev, next, page, order));
 		}
+	}
+	
+	public static Result index(){
+		List<User> users = User.Finder.all();
+		return ok(index.render(users));
 	}
 }

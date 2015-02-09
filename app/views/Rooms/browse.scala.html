@@ -5,7 +5,10 @@
 @(room: openfire.Room, entries: List[openfire.LogEntry], prev: Integer, next: Integer, page: Integer, order: String)
 
 @main("ChatLogServer", routes.Rooms.feedWithName(room.name).toString()) {
-  	<li><a href="@routes.Rooms.index()">Rooms</a></li>
+  	<li class="active"><a href="@routes.Rooms.index()">Rooms</a></li> 
+	<li><a href="@routes.Users.index()">Users</a></li>  	
+} {
+  	<li class="active"><a href="@routes.Rooms.index()"><i class="fa fa-home"></i></a></li> 
   	<li class="active">@room.title</li>
 	<li class="pull-right"><a href="xmpp://@room.getJabberId()?join">join</a></li>
 } {

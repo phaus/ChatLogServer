@@ -3,7 +3,10 @@
 @(rooms: List[openfire.Room])
 
 @main("ChatLogServer", routes.Rooms.feedAll().toString()) {
-  <li class="active">Rooms</li>
+  	<li class="active"><a href="@routes.Rooms.index()">Rooms</a></li> 
+	<li><a href="@routes.Users.index()">Users</a></li>
+} {
+  	<li class="active"><a href="@routes.Rooms.index()"><i class="fa fa-home"></i></a></li> 
 } {
 <div class="row">
     @for(room <- rooms.iterator) {

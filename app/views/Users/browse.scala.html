@@ -6,7 +6,10 @@
 @(user: openfire.User, entries: List[openfire.LogEntry], prev: Integer, next: Integer, page: Integer, order: String)
 
 @main("ChatLogServer") {
-  	<li>Users</li>
+  	<li><a href="@routes.Rooms.index()">Rooms</a></li> 
+  	<li class="active"><a>Users</a></li>
+} { 
+	<li><a href="@routes.Users.index()"><i class="fa fa-home"></i></a></li>
   	<li class="active">@user.username</li>
 } {
 <h2><small>Messages from User</small> @user.username</h2>

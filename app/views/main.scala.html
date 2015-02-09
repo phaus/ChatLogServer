@@ -1,4 +1,4 @@
-@(title: String, rssUrl: String = null)(navivation: Html)(content: Html)
+@(title: String, rssUrl: String = null)(navigation: Html)(breadcrumb: Html)(content: Html)
 @import controllers.Application
 
 <!DOCTYPE html>
@@ -20,11 +20,10 @@
 	                 <a href="@routes.Rooms.index()" class="navbar-brand">
 						<img height="26px" alt="App Logo" src="@routes.Assets.at("img/logo.png")" />
 					</a>
-	                
 				</div>
 				<div class="navbar-collapse collapse navbar-responsive-collapse">
 					<ul class="nav navbar-nav">  
-						<li><a href="@routes.Rooms.index()">Home</a></li>
+						@navigation
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 					  	<li class="pull-right"><a href="/">Dashboard</a></li>
@@ -37,7 +36,7 @@
 		</div>
 		<div class="container">   
         	<ol class="breadcrumb">
-  				@navivation  			
+  				@breadcrumb			
 			</ol>
             @content
             <hr>
