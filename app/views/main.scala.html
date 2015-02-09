@@ -17,8 +17,8 @@
 			<div class="container">
 				<div class="navbar-header">
 					<button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button"></button>
-	                 <a href="@routes.Rooms.index()" class="navbar-brand">
-						<img height="26px" alt="App Logo" src="@routes.Assets.at("img/logo.png")" />
+	                <a href="/" class="navbar-brand">
+						<img height="26px" alt="App Logo" src="@routes.Assets.at("lib/innoq-styles/images/logo-inverted_136@2x.png")" />
 					</a>
 				</div>
 				<div class="navbar-collapse collapse navbar-responsive-collapse">
@@ -26,7 +26,6 @@
 						@navigation
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-					  	<li class="pull-right"><a href="/">Dashboard</a></li>
 					  	@if(Application.ISSUE_TRACKER_URL){
 			  				<li class="pull-right"><a target="_issues" href="@Application.ISSUE_TRACKER_URL">Issues</a></li>
 		  				}					
