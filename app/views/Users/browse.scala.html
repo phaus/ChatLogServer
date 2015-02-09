@@ -16,7 +16,7 @@
         <a href="@routes.Users.browse(user.username)?page=@prev">&larr; prev</a>
         }
     </li>
-    <li>
+    <li class="middle">
 		<a href="@routes.Users.browse(user.username)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
 		<i class="fa fa-sort-amount-@order"></i>
 		</a>
@@ -47,7 +47,7 @@
         <a href="@routes.Users.browse(user.username)?page=@prev">&larr; prev</a>
         }
     </li>
-    <li>
+    <li class="middle">
 		<a href="@routes.Users.browse(user.username)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
 		<i class="fa fa-sort-amount-@order"></i>
 		</a>

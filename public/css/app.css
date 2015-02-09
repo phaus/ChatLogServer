@@ -4,9 +4,9 @@
 
 .narrow {
 	width: 100px;
-  	overflow: hidden; 
+  	overflow: hidden;
   	text-overflow: ellipsis;
-  	white-space: nowrap;	
+  	white-space: nowrap;
 }
 
 img.avatar {
@@ -33,12 +33,15 @@ tr.head {
 	border-top: 1px solid #ddd;
 }
 
-h2.room {
-	min-height: 135px;
-	max-height: 135px;
+.breadcrumb > li.active {
+  color: #000;
 }
 
 .content {
 	overflow:auto;
 	max-width: 900px;
+}
+
+.pager li.middle, .pager li.middle > a {
+  border: 0px;
 }

@@ -5,16 +5,16 @@
 <html lang="en">
     <head>
         <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("lib/innoq-styles/dist/innoq-bootstrap-theme.css")" />            
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/app.css")" />        
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/app.css")" />
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("lib/innoq-styles/dist/innoq-bootstrap-theme.css")" />
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("img/favicon.png")" />
         @if(rssUrl != null){
        	<link href="@rssUrl" type="application/atom+xml" rel="alternate" /> 
         }
     </head>
     <body>
-        <div class="container">
-			<div class="navbar navbar-default">
+		<div class="navbar navbar-inverse navbar-static-top">
+			<div class="container">
 				<div class="navbar-header">
 					<button data-target=".navbar-responsive-collapse" data-toggle="collapse" class="navbar-toggle" type="button"></button>
 	                 <a href="@routes.Rooms.index()" class="navbar-brand">
@@ -33,7 +33,9 @@
 		  				}					
 					</ul>
 				</div>
-			</div>      
+			</div>   
+		</div>
+		<div class="container">   
         	<ol class="breadcrumb">
   				@navivation  			
 			</ol>
