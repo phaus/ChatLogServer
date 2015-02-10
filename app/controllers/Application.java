@@ -11,11 +11,12 @@ import views.html.Application.*;
 
 public class Application extends Controller {
 
-	public final static String ISSUE_TRACKER_URL = ConfigFactory.load().getString("issue.tracker.url");
+	public final static String ISSUES_URL = ConfigFactory.load().getString("issues.url");
+	public final static String DOCS_URL = ConfigFactory.load().getString("docs.url");
 	public final static boolean REQUEST_SECURE = getRequestSecure();
 	
 	public static Result index() {
-		return ok(index.render());
+		return controllers.Rooms.index();
 	}
 
 	public static Result show(String id) {
