@@ -3,6 +3,8 @@
 # ~~~~
 
 # Home page
+
+GET     /chatlog/                           			controllers.Application.index()
 GET     /*                           					controllers.Application.index()
 GET     /all.atom										controllers.Rooms.feedAll()
 GET     /entries/:id									controllers.Application.show(id: String)
