@@ -16,7 +16,7 @@ public class Application extends Controller {
 	public final static boolean REQUEST_SECURE = getRequestSecure();
 	
 	public static Result index() {
-		return controllers.Rooms.index();
+		return ok(index.render());
 	}
 
 	public static Result show(String id) {
