@@ -4,7 +4,8 @@
 
 # Home page
 
-GET     /                           					controllers.Application.index()
+GET     /                           					controllers.Rooms.index()
+GET     /home                           				controllers.Application.index()
 GET     /all.atom										controllers.Rooms.feedAll()
 GET     /entries/:id									controllers.Application.show(id: String)
 GET     /users		              						controllers.Users.index()
@@ -25,6 +26,3 @@ GET     /rooms/:roomName/day/:year/:month/:day			controllers.Rooms.showWithName(
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               			controllers.Assets.at(path="/public", file)
-
-# Catch all
-GET     /*/                           					controllers.Application.index()
