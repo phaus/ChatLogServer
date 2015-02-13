@@ -34,7 +34,7 @@
 <table class="table table-striped">
     @for(entry <- entries) {
     <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
-        <td class="narrow">@Html(EntryHelper.decorateSenderName(entry.getSenderName()))</td>
+        <td class="narrow">@Html(EntryHelper.decorateIcon(entry.getSenderName()))</td>
         <td><div class="content">@if(entry.subject){ changed topic to <b>@entry.subject</b> } else { @Html(ContentHelper.prepare(entry.body)) }</div></td>
         <td class="narrow"><a href="@routes.Rooms.showWithName(room.name, entry.getYear(), entry.getMonth(), entry.getDay())">@entry.getDate().format("dd.MM.yyyy HH:mm:ss")</a></td>
     </tr>

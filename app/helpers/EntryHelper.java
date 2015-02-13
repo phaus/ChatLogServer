@@ -53,7 +53,7 @@ public class EntryHelper {
 				sb.append("</th>");
 				if (i == 0) {
 					sb.append("<td class=\"top narrow\">");
-					sb.append(decorateSenderName(entry.getSenderName()));
+					sb.append(decorateIcon(entry.getSenderName()));
 					sb.append("</td>");
 					sb.append("<td>");
 					if (entry.subject != null) {
@@ -80,7 +80,7 @@ public class EntryHelper {
 			sb.append("<a data-link=\"line-link\" id=\"L" + line + "\" name=\"L" + line + "\" href=\"#L" + line + "\">#" + line + "</a>");
 			sb.append("</th>");
 			sb.append("<td class=\"top narrow\">");
-			sb.append(decorateSenderName(entry.getSenderName()));
+			sb.append(decorateIcon(entry.getSenderName()));
 			sb.append("</td>");
 			sb.append("<td>");
 			sb.append("changed topic to <b>" + entry.subject + "</b>");
@@ -92,18 +92,30 @@ public class EntryHelper {
 		return sb.toString();
 	}
 
-	public static String decorateSenderName(String senderName) {
+	public static String decorateIcon(String senderName) {
+		return addAvatarToUser(senderName, "64x64", false);
+	}
+	
+	public static String decorateAvatar(String senderName) {
+		return addAvatarToUser(senderName, "128x128", true);
+	}
+	
+	private static String addAvatarToUser(String senderName, String size, boolean lineBreak){
 		StringBuilder sb = new StringBuilder();
 		if (USER_AVATAR_URL_TEMPLATE != null && User.Finder.where().eq("username", senderName).findUnique() != null) {
-			sb.append("<img class=\"avatar\" src=\"" + USER_AVATAR_URL_TEMPLATE.replace(":uid", senderName) + "\"/>");
+			sb.append("<img class=\"avatar\" src=\"" + USER_AVATAR_URL_TEMPLATE.replace(":uid", senderName).replace(":size", size) + "\"/>");
 			if(USER_URL_TEMPLATE != null) {
-				sb.append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", senderName)).append("\">"+senderName+"</a>");				
+				sb.append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", senderName)).append("\">");
+				if(lineBreak){
+					sb.append("<br />");		
+				}
+				sb.append(senderName+"</a>");				
 			} else {
 				sb.append(senderName);
 			}
 		} else {
 			sb.append(senderName);
 		}
-		return sb.toString();
+		return sb.toString();		
 	}
 }

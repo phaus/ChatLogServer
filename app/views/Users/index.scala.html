@@ -8,14 +8,13 @@
 } { 
 	<li><a href="@routes.Users.index()"><i class="fa fa-home"></i></a></li>
 } {
-<table class="table table-striped">
-	<tr>
-		<th>User</th>
-	</tr>
-    @for(user <- users) {
-    <tr>
-    	<td>@Html(EntryHelper.decorateSenderName(user.username))</td> 	
-    </tr>
+<div class="row">
+    @for(user <- users) {    
+ 	<div class="center col-lg-3 col-md-3 col-sm-6">
+        <h2 class="user">
+            @Html(EntryHelper.decorateAvatar(user.username)) 
+        </h2>
+    </div>    
     }
-</table>
+</div>
 }
