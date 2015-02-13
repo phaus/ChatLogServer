@@ -103,7 +103,7 @@ public class EntryHelper {
 	private static String addAvatarToUser(String senderName, String size, boolean lineBreak){
 		StringBuilder sb = new StringBuilder();
 		if (USER_AVATAR_URL_TEMPLATE != null && User.Finder.where().eq("username", senderName).findUnique() != null) {
-			sb.append("<img class=\"avatar\" src=\"" + USER_AVATAR_URL_TEMPLATE.replace(":uid", senderName).replace(":size", size) + "\"/>");
+			sb.append("<img class=\"avatar"+size+""\" src=\"" + USER_AVATAR_URL_TEMPLATE.replace(":uid", senderName).replace(":size", size) + "\"/>");
 			if(USER_URL_TEMPLATE != null) {
 				sb.append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", senderName)).append("\">");
 				if(lineBreak){

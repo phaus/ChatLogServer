@@ -13,11 +13,15 @@
 	text-align: center;
 }
 
-img.avatar {
+img.avatar64x64 {
 	max-height: 24px;
-	min-height: 24px;
 	max-width: 24px;
-  min-width: 24px;
+	margin-right: 10px;
+}
+
+img.avatar128x128 {
+	max-height: 128px;
+	max-width: 128px;
 	margin-right: 10px;
 }
 
