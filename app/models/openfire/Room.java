@@ -19,6 +19,7 @@ import play.db.ebean.Model;
 import play.libs.Json;
 import play.mvc.Http.Request;
 
+import com.avaje.ebean.Expr;
 import com.avaje.ebean.RawSql;
 import com.avaje.ebean.RawSqlBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -102,11 +103,12 @@ public class Room extends Model {
 	public List<LogEntry> getEntriesFromTo(Long from, Long to) {
 		String fromStr = OpenFireHelper.getLogTimeFromMillis(from);
 		String toStr = OpenFireHelper.getLogTimeFromMillis(to);
+		
 		List<LogEntry> entries = LogEntry.Finder
-				.where()
-				.eq("roomId", roomId)
-				.ge("logTimeString", fromStr)
-				.le("logTimeString", toStr)
+				.where("logTimeString > :fromStr AND logTimeString < :toStr AND roomId = :roomId")
+				.setParameter("fromStr", fromStr)
+				.setParameter("toStr", toStr)
+				.setParameter("roomId", roomId)
 				.order("logTimeString ASC").findList();
 		return entries;
 	}
