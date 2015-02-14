@@ -4,7 +4,7 @@
 
 # Home page
 
-GET     /                           					controllers.Rooms.index()
+GET     /?                           					controllers.Rooms.index()
 GET     /home                           				controllers.Application.index()
 GET     /all.atom										controllers.Rooms.feedAll()
 GET     /entries/:id									controllers.Application.show(id: String)
