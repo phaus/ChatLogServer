@@ -22,7 +22,8 @@ libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "5.1.18",
   "com.google.guava" % "guava" % "17.0",
   "com.googlecode.owasp-java-html-sanitizer" % "owasp-java-html-sanitizer" % "r239",
-  "com.innoq.webjars" % "innoq-styles" % "0.1.1"
+  "com.innoq.webjars" % "innoq-styles" % "0.1.1",
+  "org.webjars" % "jquery.sparkline" % "2.1.2"
 )
 
 resolvers += (

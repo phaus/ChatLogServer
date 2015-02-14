@@ -2,7 +2,22 @@
 
 @(rooms: List[openfire.Room])
 
-@main("ChatLogServer", routes.Rooms.feedAll().toString()) {
+@scripts = {
+    <script type="text/javascript">
+    	jQuery(function($) {
+    		var urlTemplate = "@routes.RoomStatistics.jsonShow(0L, 30)";
+    		$(".room").each(function( index ) {
+    			var roomId = this.id.replace("room-","");
+    			$.get( urlTemplate.replace("/0/", '/'+roomId+'/'), function( data ) {
+				$( ".result" ).html( data );
+					$('#graph-'+roomId).sparkline(data.entries, { height: 35 });
+				});
+    		}); 
+		});
+    </script>
+}
+
+@main("ChatLogServer", routes.Rooms.feedAll().toString(), scripts) {
   	<li><a href="@routes.Application.index()">Chatlogs</a></li>
     <li class="active"><a href="@routes.Rooms.index()">Rooms</a></li> 
 	<li><a href="@routes.Users.index()">Users</a></li>
@@ -12,10 +27,11 @@
 <div class="row">
     @for(room <- rooms.iterator) {
     @if(room.getEntryCount() > 0){
-    <div class="col-lg-3 col-md-3 col-sm-6">
-        <h2 class="room">
+    <div class="center col-lg-3 col-md-3 col-sm-6">
+        <h2 class="room" id="room-@room.roomId">
             <a title="join @room.title" href="xmpp://@room.getJabberId()?join"><i class="fa fa-sign-in"></i></a> <a title="browse @room.title" href="@routes.Rooms.browseWithName(room.name)">@room.title</a> 
         </h2>
+        <p><span id="graph-@room.roomId">Loading..</span></p>
 		<p>@room.getEntryCount() message(s) <br />since @room.getLastEntryDate().since()</p>
     </div>
     }

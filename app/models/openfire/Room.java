@@ -19,7 +19,6 @@ import play.db.ebean.Model;
 import play.libs.Json;
 import play.mvc.Http.Request;
 
-import com.avaje.ebean.Expr;
 import com.avaje.ebean.RawSql;
 import com.avaje.ebean.RawSqlBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;

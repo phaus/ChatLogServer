@@ -10,9 +10,6 @@ import models.openfire.Room;
 
 import org.joda.time.DateTime;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import play.Logger;
 import play.cache.Cache;
 import play.libs.Json;
@@ -22,7 +19,11 @@ import views.html.Rooms.browse;
 import views.html.Rooms.index;
 import views.html.Rooms.show;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 public class Rooms extends Application {
+	
 	public static Result index() {
 		List<Room> rooms = Room.listByDate();
 		return ok(index.render(rooms));

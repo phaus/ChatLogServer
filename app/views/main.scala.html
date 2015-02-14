@@ -1,4 +1,4 @@
-@(title: String, rssUrl: String = null)(navigation: Html)(breadcrumb: Html)(content: Html)
+@(title: String, rssUrl: String = null, scripts: Html = Html(""))(navigation: Html)(breadcrumb: Html)(content: Html)
 @import controllers.Application
 
 <!DOCTYPE html>
@@ -43,7 +43,9 @@
             @content
         </div>      
         <script src="@routes.Assets.at("js/jquery-2.1.1.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("js/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("lib/innoq-styles/dist/bootstrap.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("lib/jquery.sparkline/jquery.sparkline.min.js")" type="text/javascript"></script>        
         <script src="@routes.Assets.at("js/chatlogserver.js")" type="text/javascript"></script>
+        @scripts
     </body>
 </html>

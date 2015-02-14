@@ -25,7 +25,7 @@ public class RoomStatistics extends Application {
 		DateTime from, to;
 		to = DateTime.now();
 		from = DateTime.now().minusDays(7);
-		for (int i = 0; i < days; i++) {
+		for (int i = days; i >= 0; i--) {
 			to = DateTime.now().minusDays(i);
 			from = DateTime.now().minusDays(i + 1);
 			roomsJson.add(room.getEntriesFromTo(from.getMillis(), to.getMillis()).size());
