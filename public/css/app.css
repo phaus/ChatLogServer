@@ -19,6 +19,10 @@ img.avatar64x64 {
 	margin-right: 10px;
 }
 
+.user {
+	height: 200px;
+}
+
 img.avatar128x128 {
 	max-height: 128px;
 	max-width: 128px;

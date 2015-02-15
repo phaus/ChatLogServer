@@ -10,8 +10,8 @@
 } {
 <div class="row">
     @for(user <- users) {    
- 	<div class="center col-lg-3 col-md-3 col-sm-6">
-        <h2 class="user">
+ 	<div class="center user col-lg-3 col-md-3 col-sm-6">
+        <h2>
             @Html(EntryHelper.decorateAvatar(user.username)) 
         </h2>
     </div>    
