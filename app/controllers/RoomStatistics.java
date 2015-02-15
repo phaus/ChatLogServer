@@ -19,7 +19,7 @@ public class RoomStatistics extends Application {
 		if (room == null) {
 			return notFound("room with id " + id + " not found!");
 		}
-		String cacheKey = "roomStats-" + id;
+		String cacheKey = "roomStats-" + id+"-"+days;
 		ObjectNode result = Json.newObject();
 		ArrayNode results = (ArrayNode) Cache.get(cacheKey);
 		if (results == null) {
