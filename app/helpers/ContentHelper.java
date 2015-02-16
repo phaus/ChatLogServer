@@ -88,7 +88,7 @@ public class ContentHelper {
 
 	public ContentHelper detectUsers() {
 		int start, end;
-		String user;
+		String user, cleanuser;
 		StringBuilder contentBuilder = new StringBuilder();
 		for (String line : content.split("\n")) {
 			line = line.trim();
@@ -100,13 +100,14 @@ public class ContentHelper {
 				if (end < 1)
 					end = line.length();
 				if(end > start){
-					user = line.substring(start + 1, end).trim().toLowerCase();
+					user = line.substring(start + 1, end);
+					cleanuser = user.trim().toLowerCase(); 
 					for(String part : INVALID_USERNAME_PARTS){
-						user = user.replace(part, "");
+						cleanuser = cleanuser.replace(part, "");
 					}
 					Logger.debug("found user |" + user + "| " + start + "-" + end);
-					if(User.Finder.where().eq("username", user).findUnique() != null){
-						contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", user)).append("\">@"+user+"</a>").append(line.substring(end));					
+					if(User.Finder.where().eq("username", cleanuser).findUnique() != null){
+						contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", cleanuser)).append("\">@"+user+"</a>").append(line.substring(end));					
 					} else {
 						contentBuilder.append(line.trim());
 					}					
