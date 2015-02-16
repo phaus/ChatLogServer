@@ -24,6 +24,7 @@ public class ContentHelper {
 	private final static Pattern URL_PATTERN = Pattern.compile("\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 	private final static int MAX_GET_TIMEOUT = 2500;
 	private final static String USER_URL_TEMPLATE = ConfigFactory.load().getString("user.url.template");
+	private final static String[] INVALID_USERNAME_PARTS = {":", ","};
 	public ContentHelper(String content) {
 		this.content = content;
 	}
@@ -100,6 +101,9 @@ public class ContentHelper {
 					end = line.length();
 				if(end > start){
 					user = line.substring(start + 1, end).trim().toLowerCase();
+					for(String part : INVALID_USERNAME_PARTS){
+						user = user.replace(part, "");
+					}
 					Logger.debug("found user |" + user + "| " + start + "-" + end);
 					if(User.Finder.where().eq("username", user).findUnique() != null){
 						contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", user)).append("\">@"+user+"</a>").append(line.substring(end));					
