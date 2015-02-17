@@ -32,7 +32,7 @@
             <a title="join @room.title" href="xmpp://@room.getJabberId()?join"><i class="fa fa-sign-in"></i></a> <a title="browse @room.title" href="@routes.Rooms.browseWithName(room.name)">@room.title</a> 
         </h2>
         <p><span id="graph-@room.roomId">Loading..</span></p>
-		<p>@room.getEntryCount() message(s) <br />since @room.getLastEntryDate().since()</p>
+		<p>@room.getEntryCount() message(s) <br />last updated @room.getLastEntryDate().since()</p>
     </div>
     }
     } 
