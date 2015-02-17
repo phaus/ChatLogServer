@@ -59,3 +59,8 @@ tr.head {
 .pager li.middle, .pager li.middle > a {
   border: 0px;
 }
+
+.jqstooltip {
+  height: 35px;
+  width: 40px;
+}
