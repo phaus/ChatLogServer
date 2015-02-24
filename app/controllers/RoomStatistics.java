@@ -13,13 +13,13 @@ import play.mvc.Result;
 public class RoomStatistics extends Application {
 
 	private final static int CACHE_TTL_IN_MINUTES = 60 * 10;
-
+	private final static int CACHE_TTL_IN_SECONDS = 60 * CACHE_TTL_IN_MINUTES;
 	public static Result jsonShow(Long id, Integer days) {
 		Room room = Room.Finder.byId(id);
 		if (room == null) {
 			return notFound("room with id " + id + " not found!");
 		}
-		String cacheKey = "roomStats-" + id+"-"+days;
+		String cacheKey = "roomStats-" + id + "-" + days;
 		ObjectNode result = Json.newObject();
 		ArrayNode results = (ArrayNode) Cache.get(cacheKey);
 		if (results == null) {
@@ -27,6 +27,8 @@ public class RoomStatistics extends Application {
 			Cache.set(cacheKey, results, CACHE_TTL_IN_MINUTES);
 		}
 		result.put("entries", results);
+		response().setHeader(CACHE_CONTROL, "max-age="+CACHE_TTL_IN_SECONDS+", public");
+		response().setHeader(ETAG, String.valueOf(results.hashCode()));
 		return ok(result);
 	}
 
