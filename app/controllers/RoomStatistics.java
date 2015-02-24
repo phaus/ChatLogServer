@@ -12,7 +12,7 @@ import play.mvc.Result;
 
 public class RoomStatistics extends Application {
 
-	private final static int CACHE_TTL_IN_MINUTES = 60 * 10;
+	private final static int CACHE_TTL_IN_MINUTES = 10;
 	private final static int CACHE_TTL_IN_SECONDS = 60 * CACHE_TTL_IN_MINUTES;
 	public static Result jsonShow(Long id, Integer days) {
 		Room room = Room.Finder.byId(id);
