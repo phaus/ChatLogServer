@@ -26,6 +26,7 @@ img.avatar64x64 {
 img.avatar128x128 {
 	max-height: 128px;
 	max-width: 128px;
+	min-width: 128px;
 	margin-right: 10px;
 }
 
