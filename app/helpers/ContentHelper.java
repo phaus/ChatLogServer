@@ -34,7 +34,7 @@ public class ContentHelper {
 			return content;
 		}
 		ContentHelper ch = new ContentHelper(content.trim());
-		return ch.detectUsers().sanitize().detectLinks().normalize().toString();
+		return ch.renderHtml().detectUsers().sanitize().detectLinks().normalize().toString();
 	}
 
 	public ContentHelper normalize() {
@@ -42,6 +42,11 @@ public class ContentHelper {
 		return this;
 	}
 
+	public ContentHelper renderHtml() {
+		content = content.replace("<", "&lt;").replace(">", "&gt;");
+		return this;
+	}
+	
 	public ContentHelper sanitize() {
 		PolicyFactory policy = new HtmlPolicyBuilder()
 				.allowUrlProtocols("http")
