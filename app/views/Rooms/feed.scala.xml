@@ -3,7 +3,7 @@
 
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom">
-	<title>Messages in Room @room.title</title>
+	<title>@room.title Messages</title>
 	<link type="text/html" href="@routes.Rooms.browse(room.roomId)" rel="alternate"/>
     <updated>@lastEntry.getUpdated()</updated>
     <author>
@@ -22,7 +22,7 @@
         <updated>@entry.getUpdated()</updated>
         <summary type="html">
         <![CDATA[
-   		@Html(ContentHelper.prepare(entry.body))
+   		@entry.body
         ]]>
         </summary>
     </entry>   
