@@ -92,43 +92,49 @@ public class ContentHelper {
 	}
 
 	public ContentHelper detectUsers() {
-		int start, end;
-		String user, cleanuser;
 		StringBuilder contentBuilder = new StringBuilder();
 		for (String line : content.split("\n")) {
-			line = line.trim();
-			if (line.contains("@")) {
-				start = line.indexOf(" @") + 1;
-				if (start < 0 && line.startsWith("@"))
-					start = 0;
-				end = Math.min(line.substring(start).indexOf(" "), line.length());
-				if (end < 1)
-					end = line.length();
-				if(end > start){
-					user = line.substring(start + 1, end);
-					cleanuser = user.trim().toLowerCase(); 
-					for(String part : INVALID_USERNAME_PARTS){
-						cleanuser = cleanuser.replace(part, "");
-					}
-					Logger.debug("found user |" + user + "| " + start + "-" + end);
-					if(User.Finder.where().eq("username", cleanuser).findUnique() != null){
-						contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", cleanuser)).append("\">@"+user+"</a>").append(line.substring(end));					
-					} else {
-						contentBuilder.append(line.trim());
-					}					
-				}else {
-					Logger.warn("false user in: "+line.trim());
-					contentBuilder.append(line.trim());
-				}
-			} else {
-				contentBuilder.append(line.trim());
-			}
-			contentBuilder.append("\n");
+			contentBuilder = detectUser(contentBuilder, line);
 		}
 		content = contentBuilder.toString();
 		return this;
 	}
 
+	private StringBuilder detectUser(StringBuilder contentBuilder, String line){
+		int start, end;
+		String user, cleanuser;
+		if (line.contains("@")) {
+			start = line.indexOf(" @") + 1;
+			if (start < 0 || line.startsWith("@"))
+				start = 0;
+			end = Math.min(line.substring(start).indexOf(" ")+start, line.length());
+			if (end < start)
+				end = line.length();
+			if(end > start){
+				user = line.substring(start + 1, end);
+				cleanuser = user.trim().toLowerCase(); 
+				for(String part : INVALID_USERNAME_PARTS){
+					cleanuser = cleanuser.replace(part, "");
+				}
+				Logger.debug("found user |" + user + "| " + start + "-" + end);
+				if(User.Finder.where().eq("username", cleanuser).findUnique() != null){
+					Logger.debug("adding |" + line.substring(0, start) + "|");
+					contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", cleanuser)).append("\">@"+user+"</a> ");					
+				} else {
+					contentBuilder.append(line.trim());
+				}					
+			}else {
+				Logger.warn("false user in: "+line.trim());
+				contentBuilder.append(line.trim());
+			}			
+			return detectUser(contentBuilder, line.substring(end));
+		} else {
+			contentBuilder.append(line.trim());
+		}
+		return contentBuilder;
+	}
+	
+	
 	public String toString() {
 		return this.content;
 	}
