@@ -17,14 +17,18 @@ import models.openfire.User;
 public class EntryHelper {
 	private final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
 	private final static TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
-	private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.GERMAN);
+	private final static SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.GERMAN);
+	private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 	static {
+		DATE_TIME_FORMAT.setTimeZone(TIMEZONE);
 		DATE_FORMAT.setTimeZone(TIMEZONE);
 	}
 	
 	private final static String USER_AVATAR_URL_TEMPLATE = ConfigFactory.load().getString("user.avatar.url.template");
 	private final static String USER_URL_TEMPLATE = ConfigFactory.load().getString("user.url.template");
 	
+	private String lastDay = "";
+	private final static EntryHelper INSTANCE = new EntryHelper();
 	
 	public static ObjectNode getJson(Room room, LogEntry entry, Request request){
 		ObjectNode entryJson = Json.newObject();
@@ -32,13 +36,22 @@ public class EntryHelper {
 		entryJson.put("sender", entry.getSenderName());
 		entryJson.put("subject", entry.subject);
 		entryJson.put("content", entry.body);
-		entryJson.put("date", DATE_FORMAT.format(entry.getDate()));
+		entryJson.put("date", DATE_TIME_FORMAT.format(entry.getDate()));
 		entryJson.put("link", controllers.routes.Application.show(entry.getEntryId()).absoluteURL(request, controllers.Application.REQUEST_SECURE));
 		return entryJson;
 	}
 	
+	public static String checkDayChange(LogEntry entry){
+		if(!INSTANCE.lastDay.equals(DATE_FORMAT.format(entry.getDate()))) {
+			INSTANCE.lastDay = DATE_FORMAT.format(entry.getDate());
+			return "<tr><th class=\"day-header\" colspan=\"3\"><h3>"+INSTANCE.lastDay+"</h3></th></tr>";
+		}
+		return "";
+	}
+	
 	public static String getTableRows(Room room, LogEntry entry) {
 		StringBuilder sb = new StringBuilder();
+		
 		if(entry.body != null){
 			String parts[] =  entry.body.split("\n");
 			for (int i = 0; i < parts.length; i++) {

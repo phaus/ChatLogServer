@@ -33,6 +33,7 @@
 </ul>
 <table class="table table-striped">
     @for(entry <- entries) {
+     @Html(EntryHelper.checkDayChange(entry))
     <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
         <td class="narrow">@Html(EntryHelper.decorateIcon(entry.getSenderName()))</td>
         <td><div class="content">@if(entry.subject){ changed topic to <b>@entry.subject</b> } else { @Html(ContentHelper.prepare(entry.body)) }</div></td>
