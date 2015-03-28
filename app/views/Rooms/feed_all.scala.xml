@@ -22,7 +22,7 @@
         <updated>@entry.getUpdated()</updated>
         <summary type="html">
         <![CDATA[
-   		@Html(ContentHelper.prepare(entry.body))
+   		@entry.body
         ]]>
         </summary>
     </entry>   

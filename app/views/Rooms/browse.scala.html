@@ -2,9 +2,9 @@
 @import helpers.ContentHelper
 @import helpers.EntryHelper
 
-@(room: openfire.Room, entries: List[openfire.LogEntry], prev: Integer, next: Integer, page: Integer, order: String)
+@(room: openfire.Room, entries: List[openfire.LogEntry], entryHelper: helpers.EntryHelper, prev: Integer, next: Integer, page: Integer, order: String)
 
-@main("ChatLogServer", routes.Rooms.feedWithName(room.name).toString()) {
+@main(room.title, routes.Rooms.feedWithName(room.name).toString()) {
     <li><a href="@routes.Application.index()">Chatlogs</a></li>
     <li class="active"><a href="@routes.Rooms.index()">Rooms</a></li> 
     <li><a href="@routes.Users.index()">Users</a></li>
@@ -13,6 +13,7 @@
   	<li class="active">@room.title</li>
 	<li class="pull-right"><a href="xmpp://@room.getJabberId()?join">join</a></li>
 } {
+
 <h2><small>Messages in Room</small> @room.title</h2>
 <ul class="pager">
     <li class="previous">
@@ -33,6 +34,7 @@
 </ul>
 <table class="table table-striped">
     @for(entry <- entries) {
+    @Html(entryHelper.checkDayChange(entry, 3))
     <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
         <td class="narrow">@Html(EntryHelper.decorateIcon(entry.getSenderName()))</td>
         <td><div class="content">@if(entry.subject){ changed topic to <b>@entry.subject</b> } else { @Html(ContentHelper.prepare(entry.body)) }</div></td>

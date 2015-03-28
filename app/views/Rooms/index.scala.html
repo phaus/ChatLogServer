@@ -17,7 +17,7 @@
     </script>
 }
 
-@main("ChatLogServer", routes.Rooms.feedAll().toString(), scripts) {
+@main("Rooms", routes.Rooms.feedAll().toString(), scripts) {
   	<li><a href="@routes.Application.index()">Chatlogs</a></li>
     <li class="active"><a href="@routes.Rooms.index()">Rooms</a></li> 
 	<li><a href="@routes.Users.index()">Users</a></li>

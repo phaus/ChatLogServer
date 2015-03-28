@@ -247,6 +247,8 @@ public class Rooms extends Application {
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
 		Logger.debug("browse page: " + page + ", prev: " + prev + ", next: " + next + ", div: " + div);
 		List<LogEntry> entries = room.getEntries(page, order);
-		return ok(browse.render(room, entries, prev, next, page, order));
+		
+		// TODO adding an Instance of EntryHelper is not great, but will do it for now
+		return ok(browse.render(room, entries, new EntryHelper(), prev, next, page, order));
 	}
 }
