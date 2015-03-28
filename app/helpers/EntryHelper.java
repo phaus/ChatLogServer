@@ -28,7 +28,7 @@ public class EntryHelper {
 	private final static String USER_URL_TEMPLATE = ConfigFactory.load().getString("user.url.template");
 	
 	private String lastDay = "";
-	private final static EntryHelper INSTANCE = new EntryHelper();
+	private String lastRoom = "";
 	
 	public static ObjectNode getJson(Room room, LogEntry entry, Request request){
 		ObjectNode entryJson = Json.newObject();
@@ -41,10 +41,18 @@ public class EntryHelper {
 		return entryJson;
 	}
 	
-	public static String checkDayChange(LogEntry entry){
-		if(!INSTANCE.lastDay.equals(DATE_FORMAT.format(entry.getDate()))) {
-			INSTANCE.lastDay = DATE_FORMAT.format(entry.getDate());
-			return "<tr><th class=\"day-header\" colspan=\"3\"><h3>"+INSTANCE.lastDay+"</h3></th></tr>";
+	public String checkDayChange(LogEntry entry, int columns){
+		if(!lastDay.equals(DATE_FORMAT.format(entry.getDate()))) {
+			lastDay = DATE_FORMAT.format(entry.getDate());
+			return "<tr><th class=\"day-header\" colspan=\""+columns+"\"><h3>"+lastDay+"</h3></th></tr>";
+		}
+		return "";
+	}
+	
+	public String checkRoomChange(LogEntry entry, int columns){
+		if(!lastRoom.equals(entry.getRoomName())) {
+			lastRoom = entry.getRoomName();
+			return "<tr><th class=\"room-header\" colspan=\""+columns+"\"><h4>"+lastRoom+"</h4></th></tr>";
 		}
 		return "";
 	}

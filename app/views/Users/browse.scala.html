@@ -3,9 +3,9 @@
 @import helpers.ContentHelper
 @import helpers.EntryHelper
 
-@(user: openfire.User, entries: List[openfire.LogEntry], prev: Integer, next: Integer, page: Integer, order: String)
+@(user: openfire.User, entries: List[openfire.LogEntry], entryHelper: helpers.EntryHelper, prev: Integer, next: Integer, page: Integer, order: String)
 
-@main("ChatLogServer") {
+@main(user.username+"'s messages") {
   <li><a href="@routes.Application.index()">Chatlogs</a></li>
   <li><a href="@routes.Rooms.index()">Rooms</a></li> 
   <li class="active"><a href="@routes.Users.index()">Users</a></li>
@@ -13,6 +13,7 @@
     <li><a href="@routes.Users.index()"><i class="fa fa-home"></i></a></li>
     <li class="active">@user.username</li>
 } {
+
 <h2><small>Messages from User</small> @user.username</h2>
 <ul class="pager">
     <li class="previous">
@@ -32,13 +33,9 @@
     </li>
 </ul>
 <table class="table table-striped">
-	<tr>
-		<th></th>
-		<th>Room</th>
-		<th>Message</th>
-		<th>Date</th>
-	</tr>
     @for(entry <- entries) {
+    @Html(entryHelper.checkDayChange(entry, 4))
+    @Html(entryHelper.checkRoomChange(entry, 4))
     <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
 		<td><i class="fa fa-comments"></i></td>
 		<td><a href="@routes.Rooms.browse(entry.roomId)">@entry.getRoomName()</a></td>

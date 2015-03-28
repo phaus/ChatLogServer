@@ -1,5 +1,7 @@
 package controllers;
 
+import helpers.EntryHelper;
+
 import java.util.List;
 
 import models.openfire.LogEntry;
@@ -22,7 +24,9 @@ public class Users extends Application {
 	        Integer next = page < div ? page + 1 : null;
 	        String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
 			List<LogEntry> entries = user.getEntries(page, order);
-			return ok(browse.render(user, entries, prev, next, page, order));
+			
+			// TODO adding an Instance of EntryHelper is not great, but will do it for now
+			return ok(browse.render(user, entries, new EntryHelper(), prev, next, page, order));
 		}
 	}
 	
