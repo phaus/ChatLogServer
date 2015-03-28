@@ -42,7 +42,7 @@ public class EntryHelper {
 	}
 	
 	public String checkDayChange(LogEntry entry, int columns){
-		if(!lastDay.equals(DATE_FORMAT.format(entry.getDate()))) {
+		if(lastDay.isEmpty() || !lastDay.equals(DATE_FORMAT.format(entry.getDate()))) {
 			lastDay = DATE_FORMAT.format(entry.getDate());
 			return "<tr><th class=\"day-header\" colspan=\""+columns+"\"><h3>"+lastDay+"</h3></th></tr>";
 		}
@@ -50,10 +50,10 @@ public class EntryHelper {
 	}
 	
 	public String checkRoomChange(LogEntry entry, int columns){
-		if(!lastRoom.equals(entry.getRoomName())) {
+		if(lastRoom.isEmpty() || !lastRoom.equals(entry.getRoomName())) {
 			lastRoom = entry.getRoomName();
 			return "<tr><th class=\"room-header\" colspan=\""+columns+"\"><h4>"+lastRoom+"</h4></th></tr>";
-		}
+		} 
 		return "";
 	}
 	
