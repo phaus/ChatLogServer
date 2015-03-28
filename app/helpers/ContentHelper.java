@@ -103,7 +103,7 @@ public class ContentHelper {
 	private StringBuilder detectUser(StringBuilder contentBuilder, String line){
 		int start, end;
 		String user, cleanuser;
-		if (line.contains("@")) {
+		if (line.contains(" @") || line.startsWith("@")) {
 			start = line.indexOf(" @") + 1;
 			if (start < 0 || line.startsWith("@"))
 				start = 0;
@@ -127,7 +127,7 @@ public class ContentHelper {
 				Logger.warn("false user in: "+line.trim());
 				contentBuilder.append(line.trim());
 			}			
-			return detectUser(contentBuilder, line.substring(end));
+			return detectUser(contentBuilder, line.substring(Math.min(end+1, line.length())));
 		} else {
 			contentBuilder.append(line.trim());
 		}
