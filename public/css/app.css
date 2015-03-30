@@ -48,7 +48,7 @@ img.avatar128x128 {
 	border: none;
 }
 
-th.day-header {
+th.day-header, th.room-header {
 	background-color: #fff;
 }
 
