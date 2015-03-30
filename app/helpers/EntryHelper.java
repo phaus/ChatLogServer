@@ -44,6 +44,7 @@ public class EntryHelper {
 	public String checkDayChange(LogEntry entry, int columns){
 		if(lastDay.isEmpty() || !lastDay.equals(DATE_FORMAT.format(entry.getDate()))) {
 			lastDay = DATE_FORMAT.format(entry.getDate());
+			lastRoom = "";
 			return "<tr><th class=\"day-header\" colspan=\""+columns+"\"><h3>"+lastDay+"</h3></th></tr>";
 		}
 		return "";
