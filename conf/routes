@@ -26,4 +26,5 @@ GET     /rooms/:roomName/:year/:month/:day				controllers.Rooms.showWithName(roo
 GET     /rooms/:roomName/day/:year/:month/:day			controllers.Rooms.showWithName(roomName: String, year: Integer, month: Integer, day: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               			controllers.Assets.at(path="/public", file)
+#GET     /assets/*file               					controllers.Assets.at(path="/public", file)
+GET  	/assets/*file  									controllers.Assets.versioned(path="/public", file: Asset)
