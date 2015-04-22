@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "5.1.18",
   "com.google.guava" % "guava" % "17.0",
   "com.googlecode.owasp-java-html-sanitizer" % "owasp-java-html-sanitizer" % "r239",
-  "com.kenshoo" %% "metrics-play" % "2.3.0_0.1.8",
+  "com.kenshoo" %% "metrics-play" % "2.3.0_0.2.1",
   "org.webjars" % "webjars-play" % "2.1.0-1",
   "com.innoq.webjars" % "innoq-styles" % "0.1.1",
   "org.webjars" % "jquery" % "2.1.3",

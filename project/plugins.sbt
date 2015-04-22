@@ -21,4 +21,6 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-mocha" % "1.0.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-uglify" % "1.0.3")
 
+// Docker
+
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.0-M1")
