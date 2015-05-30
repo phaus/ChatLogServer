@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import play.Logger;
+import play.cache.Cache;
 import play.db.ebean.Model;
 
 @Entity
@@ -42,9 +43,7 @@ public class User extends Model {
 
 	public String getUsername() {
 		if (username == null) {
-			Logger.debug("jid: "+jid);
 			username = jid.replace("@"+getDomain(jid), "").trim();
-			Logger.debug("username: "+username);
 		}
 		return username;
 	}
@@ -55,11 +54,16 @@ public class User extends Model {
 	}
 	
 	public static boolean exists(String uid) {
-		User user = User.Finder.setDistinct(true)
-				.where()
-				.startsWith("bareJID", uid + "@")
-				.findUnique();
-		return user != null && user.getUsername().length() > 0;
+		Object exists = Cache.get(uid+"-exists");
+		if(exists == null){
+			Integer count = User.Finder.setDistinct(true)
+					.where()
+					.startsWith("bareJID", uid + "@")
+					.findRowCount();
+			exists = count > 0;
+			Cache.set(uid+"-exists", exists, 60 * 60 * 24);
+		}
+		return (boolean) exists;
 	}
 
 	public static List<User> list() {
