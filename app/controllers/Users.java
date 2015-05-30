@@ -14,7 +14,7 @@ import views.html.Users.index;
 public class Users extends Application {
 	
 	public static Result browse(String uid) {
-		User user = User.Finder.setDistinct(true).where().startsWith("parent", uid+"@").findUnique();
+		User user = User.Finder.setDistinct(true).where().startsWith("bareJID", uid+"@").findUnique();
 		if (user == null) {
 			return notFound("user with " + uid + " not found!");
 		} else {
