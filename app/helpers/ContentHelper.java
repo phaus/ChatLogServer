@@ -126,7 +126,7 @@ public class ContentHelper {
 					cleanuser = cleanuser.replace(part, "");
 				}
 				Logger.debug("found user |" + user + "| " + start + "-" + end);
-				if(User.Finder.where().eq("username", cleanuser).findUnique() != null) {
+				if(User.exists(cleanuser)) {
 					contentBuilder.append(line.substring(0, start)).append("<a href=\""+USER_URL_TEMPLATE.replace(":uid", cleanuser)).append("\">@"+user+"</a> ");					
 				} else {
 					contentBuilder.append(line.trim());

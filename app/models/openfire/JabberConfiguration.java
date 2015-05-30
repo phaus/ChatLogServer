@@ -6,7 +6,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import models.openfire.LogEntry.LogEntryId;
 import play.db.ebean.Model;
 
 @Entity

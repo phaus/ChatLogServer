@@ -1,5 +1,6 @@
 package controllers;
 
+import models.openfire.JabberConfiguration;
 import models.openfire.LogEntry;
 import models.openfire.Room;
 
@@ -53,5 +54,6 @@ public class Application extends Controller {
 			return Boolean.parseBoolean(ConfigFactory.load().getString("request.secure"));
 		}
 		return false;
-	}	
+	}
+	
 }

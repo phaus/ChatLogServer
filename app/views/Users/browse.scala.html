@@ -5,29 +5,29 @@
 
 @(user: openfire.User, entries: List[openfire.LogEntry], entryHelper: helpers.EntryHelper, prev: Integer, next: Integer, page: Integer, order: String)
 
-@main(user.username+"'s messages") {
+@main(user.getUsername()+"'s messages") {
   <li><a href="@routes.Rooms.index()">Chatlogs</a></li>
   <li class="active"><a href="@routes.Users.index()">Users</a></li>
 } { 
     <li><a href="@routes.Users.index()"><i class="fa fa-home"></i></a></li>
-    <li class="active">@user.username</li>
+    <li class="active">@user.getUsername()</li>
 } {
 
-<h2><small>Messages from User</small> @user.username</h2>
+<h2><small>Messages from User</small> @user.getUsername()</h2>
 <ul class="pager">
     <li class="previous">
         @if(prev != null){
-        <a href="@routes.Users.browse(user.username)?page=@prev">&larr; prev</a>
+        <a href="@routes.Users.browse(user.getUsername())?page=@prev">&larr; prev</a>
         }
     </li>
     <li class="middle">
-		<a href="@routes.Users.browse(user.username)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
+		<a href="@routes.Users.browse(user.getUsername())?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
 		<i class="fa fa-sort-amount-@order"></i>
 		</a>
     </li>
     <li class="next">
         @if(next != null){
-        <a href="@routes.Users.browse(user.username)?page=@next">next &rarr;</a>
+        <a href="@routes.Users.browse(user.getUsername())?page=@next">next &rarr;</a>
         }
     </li>
 </ul>
@@ -46,17 +46,17 @@
 <ul class="pager">
     <li class="previous">
         @if(prev != null){
-        <a href="@routes.Users.browse(user.username)?page=@prev">&larr; prev</a>
+        <a href="@routes.Users.browse(user.getUsername())?page=@prev">&larr; prev</a>
         }
     </li>
     <li class="middle">
-		<a href="@routes.Users.browse(user.username)?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
+		<a href="@routes.Users.browse(user.getUsername())?page=@page&order=@if(order.equals("asc")){asc}else{desc}">
 		<i class="fa fa-sort-amount-@order"></i>
 		</a>
     </li>
     <li class="next">
         @if(next != null){
-        <a href="@routes.Users.browse(user.username)?page=@next">next &rarr;</a>
+        <a href="@routes.Users.browse(user.getUsername())?page=@next">next &rarr;</a>
         }
     </li>
 </ul>
