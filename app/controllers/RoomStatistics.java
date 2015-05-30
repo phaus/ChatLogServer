@@ -32,6 +32,16 @@ public class RoomStatistics extends Application {
 		return ok(result);
 	}
 
+	public static Result jsonIndex(Integer days) {
+		ObjectNode result = Json.newObject();
+		String cacheKey = "roomsStats-" + days;
+		ArrayNode results = (ArrayNode) Cache.get(cacheKey);
+		result.put("entries", results);
+		response().setHeader(CACHE_CONTROL, "max-age="+CACHE_TTL_IN_SECONDS+", public");
+		response().setHeader(ETAG, String.valueOf(results.hashCode()));
+		return ok(result);
+	}
+	
 	private static ArrayNode collectEntries(Room room, Integer days, ArrayNode roomsJson) {
 		DateTime from, to;
 		to = DateTime.now();
@@ -43,4 +53,5 @@ public class RoomStatistics extends Application {
 		}
 		return roomsJson;
 	}
+	
 }
