@@ -51,7 +51,7 @@ public class ContentHelper {
 		content = content.replace("<", "&lt;").replace(">", "&gt;");
 		return this;
 	}
-	
+
 	public ContentHelper sanitize() {
 		PolicyFactory policy = new HtmlPolicyBuilder()
 				.allowUrlProtocols("http")
@@ -80,17 +80,17 @@ public class ContentHelper {
 			while (m.find()) {
 				urlStr = m.group();
 				Logger.debug("found link |" + urlStr + "|");
-				line = line.replace(urlStr, embedLink(urlStr.replace("&#61;", "=")));		
+				line = line.replace(urlStr, embedLink(getUrl(urlStr)));		
 				if(urlStr.startsWith(HTTP_WWW_YOUTUBE_COM) || urlStr.startsWith(HTTPS_WWW_YOUTUBE_COM)) {
 					Logger.debug("YOUTUBE_COM: "+line);
-					line += "<br />"+embedYT(urlStr.replace("&#61;", "="));
+					line += "<br />"+embedYT(getUrl(urlStr));
 				}
 				if(urlStr.startsWith(HTTP_YOUTU_BE) || urlStr.startsWith(HTTPS_YOUTU_BE)) {
 					Logger.debug("YOUTU_BE: "+line);
 					line += "<br />"+embedYT(convertShortYTUrl(urlStr));					
 				}
 				if(oldLine.equals(urlStr)) {
-					line += "<br />"+embedImage(urlStr.replace("&#61;", "="));
+					line += "<br />"+embedImage(getUrl(urlStr));
 				}
 			}
 			contentBuilder.append(line.trim());
@@ -109,6 +109,15 @@ public class ContentHelper {
 		return this;
 	}
 	
+	private String getUrl(String url) {
+		String[] find = {"&#61;", "%3A", "%2F"};
+		String[] replace = {"=", ":", "/"};
+		for(int i=0; i < find.length; i++) {
+			url.replace(find[i], replace[i]);
+		}
+		return url;
+	}
+
 	private StringBuilder detectUser(StringBuilder contentBuilder, String line){
 		int start, end;
 		String user, cleanuser;
