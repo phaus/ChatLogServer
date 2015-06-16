@@ -1,6 +1,7 @@
 package helpers;
 
 import java.net.URLEncoder;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -110,12 +111,16 @@ public class ContentHelper {
 	}
 	
 	private String getUrl(String url) {
-		String[] find = {"&#61;", "%3A", "%2F"};
-		String[] replace = {"=", ":", "/"};
-		for(int i=0; i < find.length; i++) {
-			url.replace(find[i], replace[i]);
+		try {
+			return URLDecoder.decode(url, "UTF-8");	
+		} catch(java.io.UnsupportedEncodingException ex) {
+			String[] find = {"&#61;", "%3A", "%2F"};
+			String[] replace = {"=", ":", "/"};
+			for(int i=0; i < find.length; i++) {
+				url.replace(find[i], replace[i]);
+			}
+			return url;
 		}
-		return url;
 	}
 
 	private StringBuilder detectUser(StringBuilder contentBuilder, String line){
@@ -169,7 +174,7 @@ public class ContentHelper {
 
 	private String embedImage(String urlStr) {
 		try {
-			urlStr = URLEncoder.encode(urlStr, "UTF-8");
+			//urlStr = URLEncoder.encode(urlStr, "UTF-8");
 			Promise<WSResponse> response = WS.url(urlStr).get();
 			try {
 				if (response.get(MAX_GET_TIMEOUT).getHeader("Content-Type").startsWith("image")) {
