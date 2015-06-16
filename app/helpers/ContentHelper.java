@@ -89,7 +89,7 @@ public class ContentHelper {
 					Logger.debug("YOUTU_BE: "+line);
 					line += "<br />"+embedYT(convertShortYTUrl(urlStr));					
 				}
-				if(oldLine.equals(urlStr)) {
+				if(getUrl(oldLine).equals(urlStr)) {
 					line += "<br />"+embedImage(getUrl(urlStr));
 				}
 			}
