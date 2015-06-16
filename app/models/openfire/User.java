@@ -63,7 +63,7 @@ public class User extends Model {
 			exists = count > 0;
 			Cache.set(uid+"-exists", exists, 60 * 60 * 24);
 		}
-		return (boolean) exists;
+		return exists != null;
 	}
 
 	public static List<User> list() {
