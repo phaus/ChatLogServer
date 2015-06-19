@@ -113,14 +113,17 @@ public class ContentHelper {
 	private String getUrl(String url) {
 		try {
 			return URLDecoder.decode(url, "UTF-8");	
+		} catch(java.lang.IllegalArgumentException ex) {
+			Logger.warn(ex.getLocalizedMessage(), ex);
 		} catch(java.io.UnsupportedEncodingException ex) {
-			String[] find = {"&#61;", "%3A", "%2F"};
-			String[] replace = {"=", ":", "/"};
-			for(int i=0; i < find.length; i++) {
-				url.replace(find[i], replace[i]);
-			}
-			return url;
+			Logger.warn(ex.getLocalizedMessage(), ex);
 		}
+		String[] find = {"&#61;", "%3A", "%2F"};
+		String[] replace = {"=", ":", "/"};
+		for(int i=0; i < find.length; i++) {
+			url.replace(find[i], replace[i]);
+		}
+		return url;		
 	}
 
 	private StringBuilder detectUser(StringBuilder contentBuilder, String line){
