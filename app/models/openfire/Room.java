@@ -131,18 +131,6 @@ public class Room extends Model {
 
 	
 	public static Finder<Long, Room> Finder = new Finder<Long, Room>("openfire", Long.class, Room.class);
-
-	public static List<LogEntry> getAllEntriesFromTo(Long from, Long to) {
-		String fromStr = OpenFireHelper.getLogTimeFromMillis(from);
-		String toStr = OpenFireHelper.getLogTimeFromMillis(to);
-		
-		List<LogEntry> entries = LogEntry.Finder
-				.where("logTimeString > :fromStr AND logTimeString < :toStr AND roomId = :roomId")
-				.setParameter("fromStr", fromStr)
-				.setParameter("toStr", toStr)
-				.order("logTimeString ASC").findList();
-		return entries;		
-	}
 	
 	public static List<Room> listByDate() {
 		return Finder.setRawSql(LIST_RAW_SQL_QUERY).setDistinct(true).findList();		

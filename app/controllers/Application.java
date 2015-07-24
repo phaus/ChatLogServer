@@ -1,7 +1,12 @@
 package controllers;
 
+import java.util.List;
+
+import org.joda.time.DateTime;
+
 import com.typesafe.config.ConfigFactory;
 
+import helpers.EntryHelper;
 import models.openfire.LogEntry;
 import models.openfire.Room;
 import play.mvc.Controller;
@@ -16,7 +21,11 @@ public class Application extends Controller {
 	public final static boolean REQUEST_SECURE = getRequestSecure();
 	
 	public static Result index() {
-		return ok(index.render());
+		DateTime from, to;
+		to = DateTime.now();
+		from = DateTime.now().minusHours(24);
+		List<LogEntry> entries = LogEntry.getAllEntriesFromTo(from.getMillis(), to.getMillis());
+		return ok(index.render(entries, new EntryHelper()));
 	}
 
 	public static Result show(String id) {

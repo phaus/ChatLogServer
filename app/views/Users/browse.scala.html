@@ -35,7 +35,7 @@
 <table class="table table-striped">
     @for(entry <- entries) {
     @Html(entryHelper.checkDayChange(entry, 4))
-    @Html(entryHelper.checkRoomChange(entry, 4))
+    @Html(entryHelper.checkRoomChange(entry, 4, null))
     <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
 		<td><i class="fa fa-comments"></i></td>
 		<td><a href="@routes.Rooms.browse(entry.roomId)">@entry.getRoomName()</a></td>

@@ -50,10 +50,10 @@ public class EntryHelper {
 		return "";
 	}
 	
-	public String checkRoomChange(LogEntry entry, int columns){
+	public String checkRoomChange(LogEntry entry, int columns, String link){
 		if(lastRoom.isEmpty() || !lastRoom.equals(entry.getRoomName())) {
 			lastRoom = entry.getRoomName();
-			return "<tr><th class=\"room-header\" colspan=\""+columns+"\"><h4>"+lastRoom+"</h4></th></tr>";
+			return link != null ? "<tr><th class=\"room-header\" colspan=\""+columns+"\"><h4><a href=\""+link+"\">"+lastRoom+"</a></h4></th></tr>" : "<tr><th class=\"room-header\" colspan=\""+columns+"\"><h4>"+lastRoom+"</h4></th></tr>";
 		} 
 		return "";
 	}

@@ -162,6 +162,18 @@ public class LogEntry extends Model {
 				.findUnique();	
 	}
 	
+	public static List<LogEntry> getAllEntriesFromTo(Long from, Long to) {
+		String fromStr = OpenFireHelper.getLogTimeFromMillis(from);
+		String toStr = OpenFireHelper.getLogTimeFromMillis(to);
+		
+		List<LogEntry> entries = LogEntry.Finder
+				.where("logTimeString > :fromStr AND logTimeString < :toStr ")
+				.setParameter("fromStr", fromStr)
+				.setParameter("toStr", toStr)
+				.order("logTimeString ASC").findList();
+		return entries;		
+	}
+	
 	private String getWords(String content, int count){
 		StringBuilder sb = new StringBuilder();
 		if(content != null){

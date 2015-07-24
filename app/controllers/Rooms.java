@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class Rooms extends Application {
-	
+
 	public static Result index() {
 		List<Room> rooms = Room.listByDate();
 		return ok(index.render(rooms));
@@ -59,7 +59,8 @@ public class Rooms extends Application {
 		if (room == null) {
 			return notFound("room with name " + roomName + " not found!");
 		}
-		return redirect(routes.Rooms.browse(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE));
+		return redirect(
+				routes.Rooms.browse(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE));
 	}
 
 	public static Result showWithName(String roomName, Integer year, Integer month, Integer day) {
@@ -130,23 +131,22 @@ public class Rooms extends Application {
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
 
 		ObjectNode links = Json.newObject();
-		links.put("index", routes.Rooms.jsonIndex().absoluteURL(request(), controllers.Application.REQUEST_SECURE)
+		links.put("index",
+				routes.Rooms.jsonIndex().absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());
+		links.put("first", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
 				.toString());
-		links.put("first", routes.Rooms.json(room.roomId)
-				.absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());
-		links.put("next", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
-				.toString()
-				+ "?page=" + next);
+		links.put("next",
+				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()
+						+ "?page=" + next);
 		links.put("current",
-				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
-						.toString()
+				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()
 						+ "?page=" + page);
-		links.put("prev", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
-				.toString()
-				+ "?page=" + prev);
-		links.put("last", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
-				.toString()
-				+ "?page=" + div);
+		links.put("prev",
+				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()
+						+ "?page=" + prev);
+		links.put("last",
+				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()
+						+ "?page=" + div);
 		result.put("links", links);
 		List<LogEntry> entries = room.getEntries(page, order);
 		return ok(entriesAsJson(result, room, entries));
@@ -167,23 +167,22 @@ public class Rooms extends Application {
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
 
 		ObjectNode links = Json.newObject();
-		links.put("index", routes.Rooms.jsonIndex().absoluteURL(request(), controllers.Application.REQUEST_SECURE)
+		links.put("index",
+				routes.Rooms.jsonIndex().absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());
+		links.put("first", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
 				.toString());
-		links.put("first", routes.Rooms.json(room.roomId)
-				.absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString());
-		links.put("next", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
-				.toString()
-				+ "?page=" + next);
+		links.put("next",
+				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()
+						+ "?page=" + next);
 		links.put("current",
-				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
-						.toString()
+				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()
 						+ "?page=" + page);
-		links.put("prev", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
-				.toString()
-				+ "?page=" + prev);
-		links.put("last", routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE)
-				.toString()
-				+ "?page=" + div);
+		links.put("prev",
+				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()
+						+ "?page=" + prev);
+		links.put("last",
+				routes.Rooms.json(room.roomId).absoluteURL(request(), controllers.Application.REQUEST_SECURE).toString()
+						+ "?page=" + div);
 		result.put("links", links);
 
 		List<LogEntry> entries = room.getEntries(page, order);
@@ -247,8 +246,9 @@ public class Rooms extends Application {
 		String order = getQueryValue("order", "asc").equals("desc") ? "asc" : "desc";
 		Logger.debug("browse page: " + page + ", prev: " + prev + ", next: " + next + ", div: " + div);
 		List<LogEntry> entries = room.getEntries(page, order);
-		
-		// TODO adding an Instance of EntryHelper is not great, but will do it for now
+
+		// TODO adding an Instance of EntryHelper is not great, but will do it
+		// for now
 		return ok(browse.render(room, entries, new EntryHelper(), prev, next, page, order));
 	}
 }

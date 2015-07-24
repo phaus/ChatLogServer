@@ -1,9 +1,43 @@
-@main("ChatLogServer") {
+@import helpers.ContentHelper
+@import helpers.EntryHelper
+
+@(entries: List[openfire.LogEntry], entryHelper: helpers.EntryHelper)
+
+@scripts = {
+    <script type="text/javascript">
+    	jQuery(function($) {
+    		var urlTemplate = "@routes.RoomStatistics.jsonIndex(30)";
+    		$(".stats").each(function( index ) {
+    			var roomId = this.id.replace("room-","");
+    			$.get( urlTemplate, function( data ) {
+				$( ".result" ).html( data );
+					$('#graph').sparkline(data.entries, { height: 50, width: '90%' });
+				});
+    		}); 
+		});
+    </script>
+}
+
+
+@main("ChatLogServer", null, scripts) {
   	<li class="active"><a href="@routes.Application.index()">Chatlogs</a></li>
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
 	<li><a href="@routes.Users.index()">Users</a></li>
 }(HtmlFormat.empty){
+<div class="row center">
+	<p class="stats"><span id="graph">Loading..</span></p>
+</div>
 <div class="row">
-
+	<h2>All Messages from the last 24h</h2>
+	<table class="table table-striped">
+	    @for(entry <- entries) {
+	    @Html(entryHelper.checkRoomChange(entry, 4, routes.Rooms.browse(entry.roomId).toString()))
+	    <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
+			<td class="narrow">@Html(EntryHelper.decorateIcon(entry.getSenderName()))</td>
+			<td><div class="content">@if(entry.subject){ changed topic to <b>@entry.subject</b> } else { @Html(ContentHelper.prepare(entry.body)) } </div></td>
+	        <td class="narrow"><a href="@routes.Rooms.show(entry.roomId, entry.getYear(), entry.getMonth(), entry.getDay())">@entry.getDate().format("dd.MM.yyyy HH:mm:ss")</a></td>
+		</tr>
+	    }
+	</table>
 </div>
 }
