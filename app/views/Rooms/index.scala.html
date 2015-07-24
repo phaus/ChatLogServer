@@ -18,8 +18,9 @@
 }
 
 @main("Rooms", routes.Rooms.feedAll().toString(), scripts) {
-  	<li class="active"><a href="@routes.Rooms.index()">Chatlogs</a></li>
-	<li><a href="@routes.Users.index()">Users</a></li>
+  	<li><a href="@routes.Application.index()">Chatlogs</a></li>
+  	<li class="active"><a href="@routes.Rooms.index()">Rooms</a></li>
+  	<li><a href="@routes.Users.index()">Users</a></li>
 } {
   	<li class="active"><a href="@routes.Rooms.index()"><i class="fa fa-home"></i></a></li> 
 } {

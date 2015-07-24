@@ -1,14 +1,13 @@
 package controllers;
 
-import models.openfire.JabberConfiguration;
-import models.openfire.LogEntry;
-import models.openfire.Room;
-
 import com.typesafe.config.ConfigFactory;
 
+import models.openfire.LogEntry;
+import models.openfire.Room;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.Application.*;
+import views.html.Application.index;
+import views.html.Application.show;
 
 public class Application extends Controller {
 
