@@ -2,8 +2,6 @@ package controllers;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import com.typesafe.config.ConfigFactory;
 
 import helpers.EntryHelper;
@@ -21,10 +19,7 @@ public class Application extends Controller {
 	public final static boolean REQUEST_SECURE = getRequestSecure();
 	
 	public static Result index() {
-		DateTime from, to;
-		to = DateTime.now();
-		from = DateTime.now().minusHours(24);
-		List<LogEntry> entries = LogEntry.getAllEntriesFromTo(from.getMillis(), to.getMillis());
+		List<LogEntry> entries = LogEntry.getEntries(1, "desc");
 		return ok(index.render(entries, new EntryHelper()));
 	}
 
