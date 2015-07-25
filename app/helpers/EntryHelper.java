@@ -78,11 +78,13 @@ public class EntryHelper {
 					sb.append(decorateIcon(entry.getSenderName()));
 					sb.append("</td>");
 					sb.append("<td>");
+					sb.append("<div class=\"content\">");
 					if (entry.subject != null) {
 						sb.append("changed topic to <h4>" + entry.subject + "</h4>");
 					} else {
 						sb.append(ContentHelper.prepare(parts[i]));					
 					}
+					sb.append("</div>");
 					sb.append("</td>");
 					sb.append("<td class=\"top narrow\">" + TIME_FORMAT.format(entry.getDate()) + "</td>");
 				} else {
