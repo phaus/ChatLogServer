@@ -56,6 +56,10 @@ tr.head {
 	border-top: 1px solid #ddd;
 }
 
+.content img {
+	max-width: 900px;
+}
+
 .breadcrumb > li.active {
   color: #000;
 }
