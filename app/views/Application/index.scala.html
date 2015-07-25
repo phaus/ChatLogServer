@@ -24,12 +24,14 @@
   	<li><a href="@routes.Rooms.index()">Rooms</a></li>
 	<li><a href="@routes.Users.index()">Users</a></li>
 }(HtmlFormat.empty){
-<div class="row center">
-	<p class="stats"><span id="graph">Loading..</span></p>
-</div>
 <div class="row">
 	<h2>Latest Messages</h2>
 	<table class="table table-striped">
+		<tr>
+			<td colspan="3">
+				<p class="stats"><span id="graph">Loading..</span></p>
+			</td>
+		</tr>
 	    @for(entry <- entries) {
 	    @Html(entryHelper.checkRoomChange(entry, 4, routes.Rooms.browse(entry.roomId).toString()))
 	    <tr class="entry" id="@entry.getEntryId()" name="@entry.getEntryId()">
