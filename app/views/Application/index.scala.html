@@ -11,7 +11,7 @@
     			var roomId = this.id.replace("room-","");
     			$.get( urlTemplate, function( data ) {
 				$( ".result" ).html( data );
-					$('#graph').sparkline(data.entries, { height: 50, width: '90%' });
+					$('#graph').sparkline(data.entries, { height: 50, width: '100%' });
 				});
     		}); 
 		});
